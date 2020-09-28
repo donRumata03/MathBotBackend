@@ -1,7 +1,7 @@
 # There are many temporary files to ignore:
 cmake-build-debug/**
 cmake-build-release/**
-CMake/**
+# CMake/**
 # .idea/**
 
 # This files are useful for users:
