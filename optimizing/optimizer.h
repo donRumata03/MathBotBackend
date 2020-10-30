@@ -1,5 +1,6 @@
 #pragma once
-#include "pch.h"
+#include <pythonic.h>
+
 #include "query_processor.h"
 
 struct optimizer_return_struct

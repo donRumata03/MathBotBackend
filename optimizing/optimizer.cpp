@@ -1,25 +1,16 @@
 #include <pythonic.h>
 #include "optimizer.h"
-#include "GA.h"
+#include "GA/GA_optimizer.h"
+
 #include "other_optimization/local_optimization.h"
 #include "../query_processor.h"
 #include "utils/rounding.h"
 
+
+
 optimizer_return_struct process_optimization_query(optimization_query& q)
 {
 	// Firstly compile the expression:
-/*
-	std::cout << q.expression << std::endl;
-	
-	auto compiled_res = compile_expression(q.expression);
-
-	if (compiled_res.has_error_message)
-	{
-		std::cout << "Error occured while compiling the expression: " << compiled_res.error_message << std::endl;
-		return compiled_res.error_message;
-	}
-	q.parsed_expression = std::move(compiled_res.particle);
-*/
 	std::unique_ptr<expression_tree> tree = nullptr;
 
 	try {
@@ -30,115 +21,6 @@ optimizer_return_struct process_optimization_query(optimization_query& q)
 
 
 	// After that order the variables the way GA needs them
-	/*
-	size_t number_of_variables = q.variables.size();
-
-	std::vector < std::pair<double, double> > ranges;
-	std::vector<std::string> var_names;
-	ranges.reserve(number_of_variables);
-	var_names.reserve(number_of_variables);
-
-	for (auto& range : q.variable_ranges) {
-		var_names.emplace_back(range.first);
-		ranges.emplace_back(range.second);
-	}
-
-	// Generate function to convert variable sequence to umap:
-	auto convert_variable_sequence = [&](const std::vector<double>& variable_values) -> std::unordered_map<std::string, double>
-	{
-		std::unordered_map<std::string, double> res;
-		for (size_t var_index = 0; var_index < number_of_variables; var_index++) res[var_names[var_index]] = variable_values[var_index];
-
-		return res;
-	};
-	// Generate the function, that gives the error by the ordered variable values by putting thm to unoredered map (frmat for expression_particle):
-	auto generated_error_function = [&](const std::vector<double>& variable_values) -> double
-	{
-		std::unordered_map < std::string, double > vars = convert_variable_sequence(variable_values);
-		
-		try {
-			return tree->compute(vars);
-		}
-		catch (std::exception& e)
-		{
-			std::cout << e.what();
-			throw;
-		}
-	};
-
-	// Generate fitness function!
-	auto generated_fitness_function = [&](const std::vector<double>& variable_values)
-	{
-		double function_result = generated_error_function(variable_values);
-		
-		if (function_result - q.target_minimum < 1e-10) return 2e+15;
-		
-		double fitness = 1 / abs(function_result - q.target_minimum);
-		return fitness;
-	};
-
-	// Construct GA_params:
-
-	GA_params params;
-
-	params.allow_multithreading = false;
-	params.exiting_fitness_value = 1e+15;
-	
-	auto all_countings = double(q.iterations);
-
-	params.population_size = size_t(std::round(square(cbrt(all_countings))));
-	params.epoch_num = size_t(std::round(cbrt(all_countings)));
-
-	// Interesting parameters:
-	params.hazing_percent = 0.3;
-
-	params.target_gene_mutation_number = 0.3 * number_of_variables;
-	params.mutation_percent_sigma = 0.05;
-	params.cut_mutations = true;
-	
-	params.best_genome_percent = 0.2;
-	params.elite_fit_pow = 2;
-	params.parent_fit_pow = 0.3;
-	
-	params.mode_of_matting = GA::matting_mode::low_variance_genetic;
-
-	// params.allow_multithreading = true;
-
-	std::cout << "Ready to launch GA!" << std::endl;
-
-	std::cout << "__________________________________________________" << std::endl;
-	auto GA_res = GA::ga_optimize(generated_fitness_function, ranges, params);
-	std::cout << "__________________________________________________" << std::endl;
-
-	auto best_genome = GA_res.second; // vector of variable values in the same order to "var_names"
-	std::unordered_map<std::string, double> GA_best_variable_values = convert_variable_sequence(best_genome);
-	double GA_best_error = tree->compute(GA_best_variable_values);
-	
-	// Now apply gradient descent:
-
-	auto GD_res = gradient_optimize(generated_error_function, best_genome, 0.003, q.iterations / 3);
-
-	auto GD_best_variable_sequence = GD_res.second;
-	auto GD_best_error = GD_res.first;
-	auto GD_best_variable_values = convert_variable_sequence(GD_best_variable_sequence);
-
-	std::cout << std::setprecision(15) << std::endl;
-	std::cout << "GA error: " << GD_best_error << std::endl;
-	std::cout << "GD error: " << GA_best_error << std::endl;
-	// cout << std::boolalpha << (GA_best_error == GD_best_error) << endl;
-	
-	if (!isnan(GD_best_error) && GD_best_error < GA_best_error)
-	{
-		std::pair<std::unordered_map<std::string, double>, double> total_res = { GD_best_variable_values, GD_best_error };
-		return total_res;
-	}
-	else
-	{
-		std::pair<std::unordered_map<std::string, double>, double> total_res = { GA_best_variable_values, GA_best_error };
-		return total_res;
-	}
-	*/
-
 	std::pair<std::unordered_map<std::string, double>, double> res;
 	try {
 		res = combi_optimize(tree.get(), q.variable_ranges, q.variables, q.target_minimum, q.iterations);
@@ -257,15 +139,15 @@ combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std
 	};
 
 	/// Construct GA_params:
-	GA_params params;
+	GA::continuous_GA_params params;
 
-	params.allow_multithreading = false;
+	params.threading_params.allow_multithreading = false;
 	params.exiting_fitness_value = 1e+15;
 
 	auto all_countings = double(iterations);
 
 	params.population_size = size_t(std::round(square(cbrt(all_countings)) * 2));
-	params.epoch_num = size_t(std::round(cbrt(all_countings) / 2));
+	auto epoch_num = size_t(std::round(cbrt(all_countings) / 2));
 
 	// Interesting parameters:
 	params.hazing_percent = 0.3;

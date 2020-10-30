@@ -55,7 +55,7 @@ set (CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake")
 include(cotire)
 
 
-include_directories(.)
+include_directories(./)
 
 
 
@@ -86,12 +86,15 @@ set(Pythonic_DIR ${pythonic_current_dir})
 find_package(Pythonic)
 include_directories(${pythonic_include_directories})
 target_link_libraries(Math_bot_backend ${pythonic_static_libraries})
+
+
 # Find PowerfulGA:
 set(PowerfulGA_DIR ${powerful_ga_current_dir})
 message(${PowerfulGA_DIR})
 find_package(PowerfulGA)
-include_directories(${powerful_ga_include_directories})
-target_link_libraries(Math_bot_backend ${powerful_ga_static_libraries})
+message(${PowerfulGA_include_directories})
+include_directories(${PowerfulGA_include_directories})
+target_link_libraries(Math_bot_backend ${PowerfulGA_static_libraries})
 
 
 # Find ExpressionParsing:

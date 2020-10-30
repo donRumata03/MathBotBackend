@@ -29,7 +29,7 @@ void test_process_solving(){
 	// const char* argv[] = {"", "solve", R"(D:\Projects\Math_bot\queries\_examples\solving_example.json)"};
 	// process_user_input(3, argv);
 
-	std::cout << console_colors::green << "______________________________________________" << console_colors::simple << std::endl;
+	std::cout << console_colors::green << "______________________________________________" << console_colors::remove_all_colors << std::endl;
 
 	const char* argv2[] = {"", "solve", R"(D:\Projects\Math_Bot\queries\447186473\1311.json)"};
 	process_user_input(3, argv2);

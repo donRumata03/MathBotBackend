@@ -47,7 +47,7 @@ void process_user_input(const int argc, const char* argv[])
 */
 			std::cout << "Output: " << "\"" << console_colors::bold << console_colors::blue <<
 				from_out_file
-			<< console_colors::simple << console_colors::simple << "\"" << std::endl;
+			<< console_colors::remove_all_colors << "\"" << std::endl;
 		}
 		else if (command == "plot")
 		{
@@ -93,7 +93,7 @@ void process_user_input(const int argc, const char* argv[])
 
 			std::cout << "Output: " << "\"" << console_colors::bold << console_colors::blue <<
 			          from_out_file
-			          << console_colors::simple << console_colors::simple << "\"" << std::endl;
+			          << console_colors::remove_all_colors << "\"" << std::endl;
 		}
 		else
 		{

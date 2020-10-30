@@ -60,7 +60,7 @@ inline std::optional<std::string> process_plotting_query (const plotting_query& 
 	show_plot({ .output_filename = query.target_path });
 
 	// std::cout << std::endl << "Plotted successfully!" << std::endl;
-	std::cout << std::endl << console_colors::green << "Plotted successfully!" << console_colors::simple << std::endl;
+	std::cout << std::endl << console_colors::green << "Plotted successfully!" << console_colors::remove_all_colors << std::endl;
 
 	return {};
 }
