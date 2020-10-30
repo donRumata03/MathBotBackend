@@ -1,5 +1,17 @@
 cmake_minimum_required(VERSION 3.16)
 
+
+if (UNIX)
+    set(pythonic_current_dir            $ENV{HOME}/dev/pythonic)
+    set(powerful_GA_current_dir         $ENV{HOME}/dev/PowerfulGA)
+    set(expression_parsing_current_dir  $ENV{HOME}/dev/ExpressionParsing)
+elseif(WIN32)
+    set(pythonic_current_dir            D:/pythonic)
+    set(powerful_GA_current_dir         D:/Projects/PowerfulGA)
+    set(expression_parsing_current_dir  D:/Projects/ExpressionParsing)
+endif()
+
+
 macro(add_debug_release_library target debug_path release_path)
     if (CMAKE_BUILD_TYPE STREQUAL Debug)
         message(It`s\ Debug\ mode!\ =>\ Liking\ Debug\ static\ library\ versions...)
@@ -40,12 +52,8 @@ set (CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake")
 include(cotire)
 
 
-include_directories(D:/pythonic)
-include_directories(D:/Cpp_Libs/json)
-include_directories(D:/Projects/Parsing_expressions/include)
-include_directories(D:/Projects/Utilities/GA/)
-include_directories(D:/Projects/Utilities/GA/GA)
 include_directories(.)
+
 
 
 add_executable(Math_bot_backend
@@ -69,17 +77,27 @@ add_executable(Math_bot_backend
         benchmark/newton_benchmark.h utils/rounding.cpp utils/rounding.h)
 
 
-add_debug_release_library(Math_bot_backend D:/pythonic/cmake-build-debug/pythonic.lib D:/pythonic/cmake-build-release/pythonic.lib)
 
-add_debug_release_library(Math_bot_backend
-        D:/Projects/Parsing_expressions/cmake-build-debug/Expression_parsing_library.lib
-        D:/Projects/Parsing_expressions/cmake-build-release/Expression_parsing_library.lib
-)
+# Find Pythonic:
+set(Pythonic_DIR ${current_pythonic_dir})
+find_package(Pythonic)
+include_directories(${pythonic_include_directories})
+target_link_libraries(${pythonic_static_libraries})
+# Find PowerfulGA:
+set(PowerfulGA_DIR ${current_powerful_ga_dir})
+find_package(PowerfulGA)
+include_directories(${powerful_ga_include_directories})
+target_link_libraries(${powerful_ga_static_libraries})
 
-add_debug_release_library(Math_bot_backend
-        D:/Projects/Utilities/GA/cmake-build-debug/GA.lib
-        D:/Projects/Utilities/GA/cmake-build-release/GA.lib
-)
+
+# Find ExpressionParsing:
+set(ExpressionParsing_DIR ${current_expression_parsing_dir})
+find_package(ExpressionParsing)
+include_directories(${expression_parsing_include_directories})
+target_link_libraries(${expression_parsing_static_libraries})
+
+
+
 
 
 cotire(Math_bot_backend)
