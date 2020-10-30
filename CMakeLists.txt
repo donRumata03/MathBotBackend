@@ -1,16 +1,19 @@
 cmake_minimum_required(VERSION 3.16)
 
+######################################################
+## Config paths:
 
 if (UNIX)
     set(pythonic_current_dir            $ENV{HOME}/dev/pythonic)
-    set(powerful_GA_current_dir         $ENV{HOME}/dev/PowerfulGA)
-    set(expression_parsing_current_dir  $ENV{HOME}/dev/ExpressionParsing)
+    set(powerful_ga_current_dir         $ENV{HOME}/dev/PowerfulGA)
+    set(expression_parsing_current_dir  $ENV{HOME}/dev/Parsing_expressions)
 elseif(WIN32)
     set(pythonic_current_dir            D:/pythonic)
-    set(powerful_GA_current_dir         D:/Projects/PowerfulGA)
-    set(expression_parsing_current_dir  D:/Projects/ExpressionParsing)
+    set(powerful_ga_current_dir         D:/Projects/Utilities/GA)
+    set(expression_parsing_current_dir  D:/Projects/Utilities/Parsing_expressions)
 endif()
 
+########################################
 
 macro(add_debug_release_library target debug_path release_path)
     if (CMAKE_BUILD_TYPE STREQUAL Debug)
@@ -79,22 +82,23 @@ add_executable(Math_bot_backend
 
 
 # Find Pythonic:
-set(Pythonic_DIR ${current_pythonic_dir})
+set(Pythonic_DIR ${pythonic_current_dir})
 find_package(Pythonic)
 include_directories(${pythonic_include_directories})
-target_link_libraries(${pythonic_static_libraries})
+target_link_libraries(Math_bot_backend ${pythonic_static_libraries})
 # Find PowerfulGA:
-set(PowerfulGA_DIR ${current_powerful_ga_dir})
+set(PowerfulGA_DIR ${powerful_ga_current_dir})
+message(${PowerfulGA_DIR})
 find_package(PowerfulGA)
 include_directories(${powerful_ga_include_directories})
-target_link_libraries(${powerful_ga_static_libraries})
+target_link_libraries(Math_bot_backend ${powerful_ga_static_libraries})
 
 
 # Find ExpressionParsing:
-set(ExpressionParsing_DIR ${current_expression_parsing_dir})
+set(ExpressionParsing_DIR ${expression_parsing_current_dir})
 find_package(ExpressionParsing)
 include_directories(${expression_parsing_include_directories})
-target_link_libraries(${expression_parsing_static_libraries})
+target_link_libraries(Math_bot_backend ${expression_parsing_static_libraries})
 
 
 
