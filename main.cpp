@@ -3,6 +3,7 @@
 #include "query_processor.h"
 
 #include "benchmark/length_benchmark.h"
+#include "math_bot_config.h"
 
 void test_process_plotting(){
 	// std::string test_json = *read_file(R"(D:\Projects\Math_bot\queries\_examples\plot_example.json)");
@@ -31,7 +32,8 @@ void test_process_solving(){
 
 	std::cout << console_colors::green << "______________________________________________" << console_colors::remove_all_colors << std::endl;
 
-	const char* argv2[] = {"", "solve", R"(D:\Projects\Math_Bot\queries\447186473\1311.json)"};
+	std::string current_path = (math_bot_base_dir / ".." / "queries" / "447186473" / "1311.json").string();
+	const char* argv2[] = {"", "solve", current_path.c_str() };
 	process_user_input(3, argv2);
 }
 
@@ -50,8 +52,8 @@ int main (int argc, const char **argv)
 		// plot_expression_derivative_length_graph();
 
 		// test_process_optimizing();
-		test_process_plotting();
-		// test_process_solving();
+		// test_process_plotting();
+		test_process_solving();
 	}
 	else {
 		process_user_input(argc, reinterpret_cast<const char **>(argv));

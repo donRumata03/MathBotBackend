@@ -144,26 +144,27 @@ combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std
 	auto epoch_num = size_t(std::round(cbrt(all_countings) / 2));
 
 	/// Construct GA_params:
-	GA::continuous_GA_params params = {
-					.population_size = population_size,
-					/// numeric params
+	GA::continuous_GA_params params {
+					population_size,
 
-					.hazing_params = GA::hazing_GA_params {
+					GA::hazing_GA_params {
 							.hazing_percent = 0.5,
 
 					},
-					.mutation_params = GA::mutation_GA_params {
+					GA::mutation_GA_params {
 							.mutation_percent_sigma = 0.05,
 							.target_gene_mutation_number = 0.3 * number_of_variables,
 							.cut_mutations = true
 					},
-					.exiting_fitness_value = 1e+15,
+					GA::crossover_mode::low_variance_genetic,
+					1e+15,                                                  // <- exiting_fitness_value
 
-					.threading_params = GA::threading_GA_params {
+					GA::threading_GA_params {
 							.allow_multithreading = false
 					},
 
-					.ex_policy = GA::exception_policy::catch_and_log_fact,
+					{},                                                     // <- Custom operations
+					GA::exception_policy::catch_and_log_fact,
 			};
 
 	std::cout << "[math bot combi-optimize]: Initializing GA..." << std::endl;
@@ -295,11 +296,11 @@ combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std
 	auto newton_best_variable_values = convert_variable_sequence(newton_best_variable_sequence);
 
 
-	std::cout << console_colors::yellow << "__________________________________________________" << console_colors::simple << std::endl;
+	std::cout << console_colors::yellow << "__________________________________________________" << console_colors::remove_all_colors << std::endl;
 	std::cout << "GA output: " << GA_best_error << " " << GA_best_variable_values << std::endl;
 	std::cout << "GD output: " << GD_best_error << " " << GD_best_variable_values << std::endl;
 	std::cout << "Newton output: " << newton_best_error << " " << newton_best_variable_values << std::endl;
-	std::cout << console_colors::yellow << "__________________________________________________" << console_colors::simple << std::endl;
+	std::cout << console_colors::yellow << "__________________________________________________" << console_colors::remove_all_colors << std::endl;
 
 	/// Choosing the best result:
 	std::vector<double> best_resultive_variable_sequence;

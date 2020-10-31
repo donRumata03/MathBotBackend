@@ -77,7 +77,7 @@ add_executable(Math_bot_backend
         benchmark/length_benchmark.h
 
         benchmark/newton_benchmark.cpp
-        benchmark/newton_benchmark.h utils/rounding.cpp utils/rounding.h)
+        benchmark/newton_benchmark.h utils/rounding.cpp utils/rounding.h optimizing/combi_optimizer.cpp optimizing/combi_optimizer.h math_bot_config.h)
 
 
 
