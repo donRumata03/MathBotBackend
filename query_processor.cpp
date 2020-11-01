@@ -77,18 +77,21 @@ void process_user_input(const int argc, const char* argv[])
 			auto query = j.get<equation_solving_query>();
 			auto response = process_solving_query(query);
 
-			std::wstring out_filename = recode::from_utf8_to_utf16(query.target_path);
-			std::ofstream out_file(out_filename);
 
 			if (std::holds_alternative<std::string>(response)) {
-				// There`s an error!
-				out_file << "Не получилось решить уравнение! В ходе решения возникла ошбика: " << std::get<std::string>(response) << std::endl;
+				/// There`s an error!
+				std::string answer = "Не получилось решить уравнение! В ходе решения возникла ошбика: " + std::get<std::string>(response);
+				write_file<given_filename_encoding::utf8>(answer, query.target_path);
 			}
 			else {
-				out_file << "Уравнение решено. Вот его корень: " << std::get<std::unordered_map<std::string, double>>(response);
+				/// Everything goes as expected:
+
+				std::stringstream ss;
+				ss << "Уравнение решено. Вот его корень: " << std::get<std::unordered_map<std::string, double>>(response);
+				write_file<given_filename_encoding::utf8>(ss.str(), query.target_path);
 			}
 
-			out_file.close();
+			// out_file.close();
 			std::string from_out_file = *read_file(query.target_path);
 
 			std::cout << "Output: " << "\"" << console_colors::bold << console_colors::blue <<
