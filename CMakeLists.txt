@@ -22,22 +22,6 @@ endif()
 
 ########################################
 
-macro(add_debug_release_library target debug_path release_path)
-    if (CMAKE_BUILD_TYPE STREQUAL Debug)
-        message(It`s\ Debug\ mode!\ =>\ Liking\ Debug\ static\ library\ versions...)
-        target_link_libraries(${target} ${debug_path})
-    else()
-        if (CMAKE_BUILD_TYPE STREQUAL Release)
-            message(It`s\ Release\ mode!\ =>\ Liking\ Release\ static\ library\ versions...)
-            target_link_libraries(${target} ${release_path})
-        else ()
-            message(It`s\ an\ Unknown\ build\ mode!\ Can`t\ link\ the library!!!)
-            exit()
-        endif()
-
-    endif()
-endmacro()
-
 macro(print_target_libraries target_name)
     message(___________________________________________)
     get_target_property(OUT ${target_name} LINK_LIBRARIES)

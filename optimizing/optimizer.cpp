@@ -258,7 +258,7 @@ combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std
 	}
 	*/
 
-	if (!isnan(GD_best_error) && GD_best_error < GA_best_error)
+	if (!std::isnan(GD_best_error) && GD_best_error < GA_best_error)
 	{
 		best_2nd_step_variable_sequence = GD_best_variable_sequence;
 	}
@@ -305,7 +305,7 @@ combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std
 	/// Choosing the best result:
 	std::vector<double> best_resultive_variable_sequence;
 
-	if (!isnan(GD_best_error) && GD_best_error < GA_best_error)
+	if (!std::isnan(GD_best_error) && GD_best_error < GA_best_error)
 	{
 		best_resultive_variable_sequence = std::move(newton_best_variable_sequence);
 	}
