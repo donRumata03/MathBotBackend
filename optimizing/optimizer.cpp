@@ -138,49 +138,76 @@ combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std
 		return fitness;
 	};
 
-	/// Construct GA_params:
-	GA::continuous_GA_params params;
-
-	params.threading_params.allow_multithreading = false;
-	params.exiting_fitness_value = 1e+15;
-
+	/// Counting distribution:
 	auto all_countings = double(iterations);
-
-	params.population_size = size_t(std::round(square(cbrt(all_countings)) * 2));
+	size_t population_size = size_t(std::round(square(cbrt(all_countings)) * 2));
 	auto epoch_num = size_t(std::round(cbrt(all_countings) / 2));
 
-	// Interesting parameters:
-	params.hazing_percent = 0.3;
+	/// Construct GA_params:
+	GA::continuous_GA_params params {
+					population_size,
 
-	params.target_gene_mutation_number = 0.3 * number_of_variables;
-	params.mutation_percent_sigma = 0.05;
-	params.cut_mutations = true;
+					GA::hazing_GA_params {
+							.hazing_percent = 0.5,
 
-	params.best_genome_percent = 0.2;
-	params.elite_fit_pow = 2;
-	params.parent_fit_pow = 0.3;
+					},
+					GA::mutation_GA_params {
+							.mutation_percent_sigma = 0.05,
+							.target_gene_mutation_number = 0.3 * number_of_variables,
+							.cut_mutations = true
+					},
+					GA::crossover_mode::low_variance_genetic,
+					1e+15,                                                  // <- exiting_fitness_value
 
-	params.mode_of_matting = GA::matting_mode::low_variance_genetic;
+					GA::threading_GA_params {
+							.allow_multithreading = false
+					},
 
-	// params.allow_multithreading = true;
+					{},                                                     // <- Custom operations
+					GA::exception_policy::catch_and_log_fact,
+			};
 
-	std::cout << "Ready to launch GA!" << std::endl;
+	std::cout << "[math bot combi-optimize]: Initializing GA..." << std::endl;
+	GA::GA_optimizer optimizer(generated_fitness_function, ranges, params);
+	std::cout << "[math bot combi-optimize]: Initialized GA => Ready to launch GA!" << std::endl;
 
+	/// Computing GA:
 	std::cout << "__________________________________________________" << std::endl;
-	std::pair<double, GA::genome> GA_res;
-	try {
-		{
-			Timer ga_timer("GA processing");
-			GA_res = GA::ga_optimize(generated_fitness_function, ranges, params);
-			double per_iteration = ga_timer.get_time() / double(params.population_size * params.epoch_num);
-			std::cout << "(" << per_iteration << "ms per one function computation, " << params.population_size * params.epoch_num << " computations" << ")\n";
+	{
+		Timer ga_timer("GA processing");
+
+		size_t actual_iterations_performed = 0;
+
+		for (size_t epoch_index = 0; epoch_index < epoch_num; ++epoch_index) {
+			bool is_ready = false;
+
+			try {
+					is_ready = optimizer.run_one_iteration(epoch_num);
+			} catch (std::exception& e) {
+				throw std::runtime_error("Error occurred while optimization in iteration №"s + std::to_string(epoch_index) + " in GA: \"" + e.what() + "\"");
+			}
+
+			if (is_ready) {
+				std::cout << "[math bot combi-optimize]: Finished GA in "
+					<< (epoch_index + 1) << " iterations instead of " << epoch_num << " ones! Good news :)" << std::endl;
+				break;
+			}
+
+			actual_iterations_performed = epoch_index + 1;
 		}
-	} catch(std::exception& e) {
-		throw std::runtime_error("Error occurred while optimization: "s + e.what());
+
+		auto computations_performed = double(population_size * actual_iterations_performed);
+
+		double time_per_iteration = ga_timer.get_time() / computations_performed;
+		std::cout << "[math bot combi-optimize]: Finished GA (" << time_per_iteration << "ms per one function computation, "
+		          << computations_performed << " computations performed" << ")\n";
 	}
 	std::cout << "__________________________________________________" << std::endl;
 
-	auto best_genome = GA_res.second; // vector of variable values in the same order to "var_names"
+	/*std::pair<double, GA::Genome>*/ auto[_best_function_value, best_genome] = std::tie(optimizer.get_current_fitness(), optimizer.get_best_genome());
+
+
+	// auto best_genome = GA_res.second; // vector of variable values in the same order to "var_names"
 	std::unordered_map<std::string, double> GA_best_variable_values = convert_variable_sequence(best_genome);
 	double GA_best_error = tree->compute(GA_best_variable_values);
 
@@ -269,11 +296,11 @@ combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std
 	auto newton_best_variable_values = convert_variable_sequence(newton_best_variable_sequence);
 
 
-	std::cout << console_colors::yellow << "__________________________________________________" << console_colors::simple << std::endl;
+	std::cout << console_colors::yellow << "__________________________________________________" << console_colors::remove_all_colors << std::endl;
 	std::cout << "GA output: " << GA_best_error << " " << GA_best_variable_values << std::endl;
 	std::cout << "GD output: " << GD_best_error << " " << GD_best_variable_values << std::endl;
 	std::cout << "Newton output: " << newton_best_error << " " << newton_best_variable_values << std::endl;
-	std::cout << console_colors::yellow << "__________________________________________________" << console_colors::simple << std::endl;
+	std::cout << console_colors::yellow << "__________________________________________________" << console_colors::remove_all_colors << std::endl;
 
 	/// Choosing the best result:
 	std::vector<double> best_resultive_variable_sequence;

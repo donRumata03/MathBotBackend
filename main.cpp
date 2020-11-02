@@ -3,55 +3,87 @@
 #include "query_processor.h"
 
 #include "benchmark/length_benchmark.h"
+#include "math_bot_config.h"
+
+
+void test_query_processing(const std::string& process_name, const std::string& dir_name, const std::string& file_name) {
+	auto path = (math_bot_query_path / dir_name / file_name).string();
+
+	const char* emulated_argv[] = {
+			"",
+			process_name.c_str(),
+			path.c_str()
+	};
+
+	std::cout << console_colors::green
+		<< "Testing math bot query: " << process_name
+	<< console_colors::remove_all_colors << std::endl;
+
+	process_user_input(3, emulated_argv);
+}
+
 
 void test_process_plotting(){
-	// std::string test_json = *read_file(R"(D:\Projects\Math_bot\queries\_examples\plot_example.json)");
-	// std::string test_json = *read_file(R"(D:\Projects\Math_Bot\queries\1\1.json)");
+	std::string dir_with_examples = "_examples";
+	std::string example_filename = "plotting_example.json";
 
-	// json j = json::parse(test_json);
-	// auto q = j.get<plotting_query>();
+	const std::string& this_filename = example_filename;
+	const std::string& this_dir = dir_with_examples;
 
-	// std::cout << json(q).dump(4) << std::endl;
-
-	// const char* argv[] = {"", "plot", R"(D:\Projects\Math_bot\queries\_examples\plot_example.json)"};
-	const char* argv[] = {"", "plot", R"(D:\Projects\Math_Bot\queries\1\1.json)"};
-
-	process_user_input(3, argv);
+	test_query_processing(
+			"plot",
+			this_dir,
+			this_filename
+			);
 }
 
 void test_process_optimizing(){
-	const char* argv[] = {"", "optimize", R"(D:\Projects\Math_Bot\queries\215659697\2553.json)"};
-	// const char* argv[] = {"", "optimize", R"(D:\Projects\Math_Bot\queries\_examples\optimizing_example.json)"};
-	process_user_input(3, argv);
+	std::string dir_with_examples = "_examples";
+	std::string example_filename = "optimizing_example.json";
+
+	// const std::string& this_dir = "215659697";
+	// const std::string& this_filename = "2553.json";
+
+	const std::string& this_dir = dir_with_examples;
+	const std::string& this_filename = example_filename;
+
+	test_query_processing(
+			"optimize",
+			this_dir,
+			this_filename
+	);
 }
 
 void test_process_solving(){
-	// const char* argv[] = {"", "solve", R"(D:\Projects\Math_bot\queries\_examples\solving_example.json)"};
-	// process_user_input(3, argv);
+	std::string dir_with_examples = "_examples";
+	std::string example_filename = "solving_example.json";
+	std::string non_solvable_filename = "non_solvable_example.json";
 
-	std::cout << console_colors::green << "______________________________________________" << console_colors::remove_all_colors << std::endl;
+	// const std::string& this_dir = "447186473";
+	// const std::string& this_filename = "1311.json";
 
-	const char* argv2[] = {"", "solve", R"(D:\Projects\Math_Bot\queries\447186473\1311.json)"};
-	process_user_input(3, argv2);
+	const std::string& this_dir = dir_with_examples;
+	// const std::string& this_filename = example_filename;
+	const std::string& this_filename = non_solvable_filename;
+
+	test_query_processing(
+			"solve",
+			this_dir,
+			this_filename
+	);
 }
 
 int main (int argc, const char **argv)
 {
-	// setlocale(LC_ALL, "Russian");
-
-	SetConsoleOutputCP(CP_UTF8);
-	SetConsoleCP(CP_UTF8);
-
-	system("chcp 65001");
-
+	set_utf8_in_console();
 
 
 	if (argc == 1) {
 		// plot_expression_derivative_length_graph();
 
 		// test_process_optimizing();
-		test_process_plotting();
-		// test_process_solving();
+		// test_process_plotting();
+		test_process_solving();
 	}
 	else {
 		process_user_input(argc, reinterpret_cast<const char **>(argv));

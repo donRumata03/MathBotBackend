@@ -46,7 +46,7 @@ void plot_expression_derivative_length_graph ()
 		}
 
 		std::cout << function_text << " : " << to_plot << std::endl;
-		add_to_plot(to_plot, { .name = function_text });
+		add_pairs_to_plot(to_plot, { .name = function_text });
 	}
 
 	show_plot(
