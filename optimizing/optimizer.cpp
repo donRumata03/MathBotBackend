@@ -240,8 +240,8 @@ combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std
 	auto GD_best_variable_values = convert_variable_sequence(GD_best_variable_sequence);
 
 	std::cout << std::setprecision(15) << std::endl;
-	std::cout << "GA error: " << GD_best_error << std::endl;
-	std::cout << "GD error: " << GA_best_error << std::endl;
+	std::cout << "GA error: " << GA_best_error << std::endl;
+	std::cout << "GD error: " << GD_best_error << std::endl;
 
 	std::vector<double> best_2nd_step_variable_sequence;
 
