@@ -1,5 +1,12 @@
 cmake_minimum_required(VERSION 3.16)
 
+if (UNIX)
+    message("UNIX => Setting Compiler to gcc-10")
+    set(CMAKE_CXX_COMPILER "/usr/bin/g++-10")
+    set(CMAKE_C_COMPILER "/usr/bin/gcc-10")
+endif()
+
+
 ######################################################
 ## Config paths:
 
