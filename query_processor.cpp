@@ -24,19 +24,20 @@ void process_user_input(const int argc, const char* argv[])
 			auto query = load_optimization_query_from_json(filename);
 			auto res = process_optimization_query(query);
 
-			std::wstring out_filename = recode::from_utf8_to_utf16(query.target_path);
-			std::ofstream out_file(out_filename);
-
 			if (res.has_error_message)
 			{
-				out_file << "В результате обработки Вашего запроса возникла ошибка! Вот она: \"" << res.error_message << "\"" << std::endl;
+				std::string answer = "В результате обработки Вашего запроса возникла ошибка! Вот она: \"" + res.error_message + "\"\n";
+				write_file<given_filename_encoding::utf8>(answer, query.target_path);
 			}
 			else {
+				std::stringstream ss;
+				ss << res.answer;
+				std::string str_umap = ss.str();
 
-				out_file << "Я смог найти минимум функции \"" + query.expression + "\" при этих значениях переменных: " << std::endl;
-				out_file << res.answer << std::endl << "Итоговое значение функции в этой точке: " << res.best_value << ".";
+				std::string answer = "Я смог найти минимум функции \"" + query.expression + "\" при этих значениях переменных: \n" +
+						str_umap + "\nИтоговое значение функции в этой точке: " + std::to_string(res.best_value) + ".";
+				write_file<given_filename_encoding::utf8>(answer, query.target_path);
 			}
-			out_file.close();
 			std::string from_out_file = *read_file(query.target_path);
 /*
 			// recode::auto_recode(from_)
@@ -60,12 +61,15 @@ void process_user_input(const int argc, const char* argv[])
 
 			if (response) {
 				// Have some error!
-				write_file("Увы, я не могу за`plot`ить эту штуковину! Появилась ошибка: \""s + *response + "\"", recode::from_utf8_to_utf16(query.text_path));
+				write_file<given_filename_encoding::utf8>(
+						"Увы, я не могу за`plot`ить эту штуковину! Появилась ошибка: \""s + *response + "\"", query.text_path
+				);
+
 				std::cout << "There are some errors with plotting!" << std::endl;
 				return;
 			}
 
-			write_file("", recode::from_utf8_to_utf16(query.text_path));
+			write_file<given_filename_encoding::utf8>("", query.text_path);
 		}
 		else if (command == "solve")
 		{
