@@ -77,12 +77,6 @@ include_directories(${expression_parsing_include_directories})
 target_link_libraries(Math_bot_backend ${expression_parsing_static_libraries})
 
 
-# Find Pythonic:
-set(Pythonic_DIR ${pythonic_current_dir})
-find_package(Pythonic)
-include_directories(${pythonic_include_directories})
-target_link_libraries(Math_bot_backend ${pythonic_static_libraries})
-
 
 # Find PowerfulGA:
 set(PowerfulGA_DIR ${powerful_ga_current_dir})
@@ -91,6 +85,15 @@ find_package(PowerfulGA)
 include_directories(${PowerfulGA_include_directories})
 target_link_libraries(Math_bot_backend ${PowerfulGA_static_libraries})
 message(${PowerfulGA_static_libraries})
+
+
+
+# Find Pythonic:
+set(Pythonic_DIR ${pythonic_current_dir})
+find_package(Pythonic)
+include_directories(${pythonic_include_directories})
+target_link_libraries(Math_bot_backend ${pythonic_static_libraries})
+
 
 
 
