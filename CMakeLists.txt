@@ -70,6 +70,11 @@ add_executable(Math_bot_backend
         benchmark/newton_benchmark.cpp
         benchmark/newton_benchmark.h utils/rounding.cpp utils/rounding.h optimizing/combi_optimizer.cpp optimizing/combi_optimizer.h math_bot_config.h)
 
+# Find ExpressionParsing (doesn't require pythonic):
+set(ExpressionParsing_DIR ${expression_parsing_current_dir})
+find_package(ExpressionParsing)
+include_directories(${expression_parsing_include_directories})
+target_link_libraries(Math_bot_backend ${expression_parsing_static_libraries})
 
 
 # Find Pythonic:
@@ -81,18 +86,12 @@ target_link_libraries(Math_bot_backend ${pythonic_static_libraries})
 
 # Find PowerfulGA:
 set(PowerfulGA_DIR ${powerful_ga_current_dir})
-message(${PowerfulGA_DIR})
 find_package(PowerfulGA)
-message(${PowerfulGA_include_directories})
+
 include_directories(${PowerfulGA_include_directories})
 target_link_libraries(Math_bot_backend ${PowerfulGA_static_libraries})
+message(${PowerfulGA_static_libraries})
 
-
-# Find ExpressionParsing:
-set(ExpressionParsing_DIR ${expression_parsing_current_dir})
-find_package(ExpressionParsing)
-include_directories(${expression_parsing_include_directories})
-target_link_libraries(Math_bot_backend ${expression_parsing_static_libraries})
 
 
 
