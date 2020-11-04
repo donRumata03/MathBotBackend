@@ -134,7 +134,7 @@ combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std
 
 		if (function_result - target_minimum < 1e-10) return 2e+15;
 
-		double fitness = 1 / abs(function_result - target_minimum);
+		double fitness = 1 / std::abs(function_result - target_minimum);
 		return fitness;
 	};
 
@@ -303,19 +303,19 @@ combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std
 	std::cout << console_colors::yellow << "__________________________________________________" << console_colors::remove_all_colors << std::endl;
 
 	/// Choosing the best result:
-	std::vector<double> best_resultive_variable_sequence;
+	std::vector<double> best_resultant_variable_sequence;
 
 	if (!std::isnan(GD_best_error) && GD_best_error < GA_best_error)
 	{
-		best_resultive_variable_sequence = std::move(newton_best_variable_sequence);
+		best_resultant_variable_sequence = std::move(newton_best_variable_sequence);
 	}
 	else
 	{
-		best_resultive_variable_sequence = std::move(best_2nd_step_variable_sequence);
+		best_resultant_variable_sequence = std::move(best_2nd_step_variable_sequence);
 	}
 
-	auto best_resultive_variable_values = convert_variable_sequence(best_resultive_variable_sequence);
-	auto best_resultive_error = generated_error_function(best_resultive_variable_sequence);
+	auto best_resultive_variable_values = convert_variable_sequence(best_resultant_variable_sequence);
+	auto best_resultive_error = generated_error_function(best_resultant_variable_sequence);
 
 	return { best_resultive_variable_values, best_resultive_error };
 	// return { newton_best_variable_values, newton_best_error };
