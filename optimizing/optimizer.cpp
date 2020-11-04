@@ -143,6 +143,18 @@ combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std
 	size_t population_size = size_t(std::round(square(cbrt(all_countings)) * 2));
 	auto epoch_num = size_t(std::round(cbrt(all_countings) / 2));
 
+
+	/// Generate informer:
+	auto generated_informer = [&](size_t iteration, double current_fitness, const GA::Genome& best_genome){
+		double error_function = target_minimum + 1 / current_fitness;
+		std::cout
+			<< "GA percent: " << percent_plotter(iteration, epoch_num, 1)
+			<< " | Current error: " << error_function
+			<< " | Best genome: " << best_genome
+		<< std::endl;
+	};
+
+
 	/// Construct GA_params:
 	GA::continuous_GA_params params {
 					population_size,
@@ -169,6 +181,7 @@ combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std
 
 	std::cout << "[math bot combi-optimize]: Initializing GA..." << std::endl;
 	GA::GA_optimizer optimizer(generated_fitness_function, ranges, params);
+	optimizer.set_informer(generated_informer);
 	std::cout << "[math bot combi-optimize]: Initialized GA => Ready to launch GA!" << std::endl;
 
 	/// Computing GA:
