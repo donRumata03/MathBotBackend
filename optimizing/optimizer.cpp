@@ -134,7 +134,7 @@ combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std
 
 		if (function_result - target_minimum < 1e-10) return 2e+15;
 
-		double fitness = 1 / abs(function_result - target_minimum);
+		double fitness = 1 / std::abs(function_result - target_minimum);
 		return fitness;
 	};
 
@@ -142,6 +142,18 @@ combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std
 	auto all_countings = double(iterations);
 	size_t population_size = size_t(std::round(square(cbrt(all_countings)) * 2));
 	auto epoch_num = size_t(std::round(cbrt(all_countings) / 2));
+
+
+	/// Generate informer:
+	auto generated_informer = [&](size_t iteration, double current_fitness, const GA::Genome& best_genome){
+		double error_function = target_minimum + 1 / current_fitness;
+		std::cout
+			<< "GA percent: " << percent_plotter(iteration, epoch_num, 1)
+			<< " | Current error: " << error_function
+			<< " | Best genome: " << best_genome
+		<< std::endl;
+	};
+
 
 	/// Construct GA_params:
 	GA::continuous_GA_params params {
@@ -169,6 +181,7 @@ combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std
 
 	std::cout << "[math bot combi-optimize]: Initializing GA..." << std::endl;
 	GA::GA_optimizer optimizer(generated_fitness_function, ranges, params);
+	optimizer.set_informer(generated_informer);
 	std::cout << "[math bot combi-optimize]: Initialized GA => Ready to launch GA!" << std::endl;
 
 	/// Computing GA:
@@ -258,7 +271,7 @@ combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std
 	}
 	*/
 
-	if (!isnan(GD_best_error) && GD_best_error < GA_best_error)
+	if (!std::isnan(GD_best_error) && GD_best_error < GA_best_error)
 	{
 		best_2nd_step_variable_sequence = GD_best_variable_sequence;
 	}
@@ -303,19 +316,19 @@ combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std
 	std::cout << console_colors::yellow << "__________________________________________________" << console_colors::remove_all_colors << std::endl;
 
 	/// Choosing the best result:
-	std::vector<double> best_resultive_variable_sequence;
+	std::vector<double> best_resultant_variable_sequence;
 
-	if (!isnan(GD_best_error) && GD_best_error < GA_best_error)
+	if (!std::isnan(GD_best_error) && GD_best_error < GA_best_error)
 	{
-		best_resultive_variable_sequence = std::move(newton_best_variable_sequence);
+		best_resultant_variable_sequence = std::move(newton_best_variable_sequence);
 	}
 	else
 	{
-		best_resultive_variable_sequence = std::move(best_2nd_step_variable_sequence);
+		best_resultant_variable_sequence = std::move(best_2nd_step_variable_sequence);
 	}
 
-	auto best_resultive_variable_values = convert_variable_sequence(best_resultive_variable_sequence);
-	auto best_resultive_error = generated_error_function(best_resultive_variable_sequence);
+	auto best_resultive_variable_values = convert_variable_sequence(best_resultant_variable_sequence);
+	auto best_resultive_error = generated_error_function(best_resultant_variable_sequence);
 
 	return { best_resultive_variable_values, best_resultive_error };
 	// return { newton_best_variable_values, newton_best_error };

@@ -41,11 +41,11 @@ void test_process_optimizing(){
 	std::string dir_with_examples = "_examples";
 	std::string example_filename = "optimizing_example.json";
 
-	// const std::string& this_dir = "215659697";
-	// const std::string& this_filename = "2553.json";
+	const std::string& this_dir = "215659697";
+	const std::string& this_filename = "125.json";
 
-	const std::string& this_dir = dir_with_examples;
-	const std::string& this_filename = example_filename;
+	// const std::string& this_dir = dir_with_examples;
+	// const std::string& this_filename = example_filename;
 
 	test_query_processing(
 			"optimize",
@@ -81,9 +81,9 @@ int main (int argc, const char **argv)
 	if (argc == 1) {
 		// plot_expression_derivative_length_graph();
 
-		// test_process_optimizing();
+		test_process_optimizing();
 		// test_process_plotting();
-		test_process_solving();
+		// test_process_solving();
 	}
 	else {
 		process_user_input(argc, reinterpret_cast<const char **>(argv));

@@ -1,12 +1,19 @@
 cmake_minimum_required(VERSION 3.16)
 
+if (UNIX)
+    message("UNIX => Setting Compiler to gcc-10")
+    set(CMAKE_CXX_COMPILER "/usr/bin/g++-10")
+    set(CMAKE_C_COMPILER "/usr/bin/gcc-10")
+endif()
+
+
 ######################################################
 ## Config paths:
 
 if (UNIX)
     set(pythonic_current_dir            $ENV{HOME}/dev/pythonic)
     set(powerful_ga_current_dir         $ENV{HOME}/dev/PowerfulGA)
-    set(expression_parsing_current_dir  $ENV{HOME}/dev/Parsing_expressions)
+    set(expression_parsing_current_dir  $ENV{HOME}/dev/ExpressionParsing)
 elseif(WIN32)
     set(pythonic_current_dir            D:/pythonic)
     set(powerful_ga_current_dir         D:/Projects/Utilities/GA)
@@ -14,22 +21,6 @@ elseif(WIN32)
 endif()
 
 ########################################
-
-macro(add_debug_release_library target debug_path release_path)
-    if (CMAKE_BUILD_TYPE STREQUAL Debug)
-        message(It`s\ Debug\ mode!\ =>\ Liking\ Debug\ static\ library\ versions...)
-        target_link_libraries(${target} ${debug_path})
-    else()
-        if (CMAKE_BUILD_TYPE STREQUAL Release)
-            message(It`s\ Release\ mode!\ =>\ Liking\ Release\ static\ library\ versions...)
-            target_link_libraries(${target} ${release_path})
-        else ()
-            message(It`s\ an\ Unknown\ build\ mode!\ Can`t\ link\ the library!!!)
-            exit()
-        endif()
-
-    endif()
-endmacro()
 
 macro(print_target_libraries target_name)
     message(___________________________________________)
@@ -79,6 +70,22 @@ add_executable(Math_bot_backend
         benchmark/newton_benchmark.cpp
         benchmark/newton_benchmark.h utils/rounding.cpp utils/rounding.h optimizing/combi_optimizer.cpp optimizing/combi_optimizer.h math_bot_config.h)
 
+# Find ExpressionParsing (doesn't require pythonic):
+set(ExpressionParsing_DIR ${expression_parsing_current_dir})
+find_package(ExpressionParsing)
+include_directories(${expression_parsing_include_directories})
+target_link_libraries(Math_bot_backend ${expression_parsing_static_libraries})
+
+
+
+# Find PowerfulGA:
+set(PowerfulGA_DIR ${powerful_ga_current_dir})
+find_package(PowerfulGA)
+
+include_directories(${PowerfulGA_include_directories})
+target_link_libraries(Math_bot_backend ${PowerfulGA_static_libraries})
+message(${PowerfulGA_static_libraries})
+
 
 
 # Find Pythonic:
@@ -88,20 +95,6 @@ include_directories(${pythonic_include_directories})
 target_link_libraries(Math_bot_backend ${pythonic_static_libraries})
 
 
-# Find PowerfulGA:
-set(PowerfulGA_DIR ${powerful_ga_current_dir})
-message(${PowerfulGA_DIR})
-find_package(PowerfulGA)
-message(${PowerfulGA_include_directories})
-include_directories(${PowerfulGA_include_directories})
-target_link_libraries(Math_bot_backend ${PowerfulGA_static_libraries})
-
-
-# Find ExpressionParsing:
-set(ExpressionParsing_DIR ${expression_parsing_current_dir})
-find_package(ExpressionParsing)
-include_directories(${expression_parsing_include_directories})
-target_link_libraries(Math_bot_backend ${expression_parsing_static_libraries})
 
 
 
