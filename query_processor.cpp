@@ -38,7 +38,7 @@ void process_user_input(const int argc, const char* argv[])
 						str_umap + "\nИтоговое значение функции в этой точке: " + std::to_string(res.best_value) + ".";
 				write_file<given_filename_encoding::utf8>(answer, query.target_path);
 			}
-			std::string from_out_file = *read_file(query.target_path);
+			std::string from_out_file = *read_file<given_filename_encoding::utf8>(query.target_path);
 /*
 			// recode::auto_recode(from_)
 
@@ -52,7 +52,7 @@ void process_user_input(const int argc, const char* argv[])
 		}
 		else if (command == "plot")
 		{
-			auto file_contents = *read_file(filename);
+			auto file_contents = *read_file<given_filename_encoding::utf8>(filename);
 			json j = json::parse(file_contents);
 
 			auto query = j.get<plotting_query>();
@@ -75,7 +75,7 @@ void process_user_input(const int argc, const char* argv[])
 		{
 			// std::cout << "This command is being developed! :(..." << std::endl;
 
-			auto file_contents = *read_file(filename);
+			auto file_contents = *read_file<given_filename_encoding::utf8>(filename);
 			json j = json::parse(file_contents);
 
 			auto query = j.get<equation_solving_query>();
@@ -96,7 +96,7 @@ void process_user_input(const int argc, const char* argv[])
 			}
 
 			// out_file.close();
-			std::string from_out_file = *read_file(query.target_path);
+			std::string from_out_file = *read_file<given_filename_encoding::utf8>(query.target_path);
 
 			std::cout << "Output: " << "\"" << console_colors::bold << console_colors::blue <<
 			          from_out_file
@@ -124,7 +124,7 @@ optimization_query load_optimization_query_from_json(const std::string& filename
 {
 	optimization_query res;
 
-	json file_data = json::parse(*read_file(filename));
+	json file_data = json::parse(*read_file<given_filename_encoding::utf8>(filename));
 
 	res.target_minimum = file_data["data"]["target_minimum"].get<double>();
 	res.expression = recode::auto_recode(file_data["data"]["function"].get<std::string>(), encoding::cp1251);
