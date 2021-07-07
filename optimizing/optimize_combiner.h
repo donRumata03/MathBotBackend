@@ -24,6 +24,12 @@ private:
 public:
 
 	explicit OptimizationTree(const json& source, type parent_container_type);
+	void run(
+			const std::function<double (const std::vector<double>&)>& error_function,
+			const std::function<double (const std::vector<double>&)>& fitness_function,
+			const std::function<std::vector<double> (const std::vector<double>&)>& first_gradient,
+			const std::function<std::vector<double> (const std::vector<double>&)>& second_gradient
+	);
 };
 
 

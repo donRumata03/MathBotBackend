@@ -6,6 +6,7 @@
 
 #include <pythonic.h>
 #include "GA/GA_optimizer.h"
+#include "expression_parsing.h"
 
 
 constexpr const char* math_bot_pch_file_path = __FILE__;

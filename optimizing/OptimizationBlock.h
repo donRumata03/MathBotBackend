@@ -2,6 +2,8 @@
 // Created by Vova on 06.07.2021.
 //
 
+#include "math_bot_config.h."
+
 /**
  	Use this code to compare old and new results:
 
@@ -43,8 +45,25 @@
 
 class OptimizationBlock
 {
+public:
+	enum class type
+	{
+		GA,
+		Annealing,
+		GD,
+		Newton,
+
+		// To be continued…
+	};
+
 	virtual void run() = 0;
 	virtual std::pair<double, std::vector<double>> get_result() = 0;
+	virtual type get_type() = 0;
+
+	bool can_use_initial_position() {
+		auto t = get_type();
+		return t != type::GA;
+	}
 };
 
 

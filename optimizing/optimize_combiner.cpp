@@ -2,6 +2,7 @@
 // Created by Vova on 01.11.2020.
 //
 
+#include <lib/libfort/fort.h>
 #include "optimize_combiner.h"
 
 OptimizationTree::OptimizationTree (const json& source, type parent_container_type)
@@ -40,5 +41,23 @@ OptimizationTree::OptimizationTree (const json& source, type parent_container_ty
 
 	for (const auto& json_partition : source) {
 		children.emplace_back(json_partition, m_type);
+	}
+}
+
+void OptimizationTree::run (const std::function<double (const std::vector<double>&)>& error_function,
+                            const std::function<double (const std::vector<double>&)>& fitness_function,
+                            const std::function<std::vector<double> (const std::vector<double>&)>& first_gradient,
+                            const std::function<std::vector<double> (const std::vector<double>&)>& second_gradient)
+{
+	if (m_type == type::opt_block) {
+		// Just use local optimizer:
+		// …
+	}
+	else if (m_type == type::seq_container) {
+		/// Run children in sequence
+
+	}
+	else{
+		/// Run children in parallel
 	}
 }
