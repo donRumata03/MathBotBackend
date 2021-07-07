@@ -21,7 +21,7 @@ private:
 	std::vector<OptimizationTree> children;
 	std::unique_ptr<OptimizationBlock> m_block = nullptr;
 
-	double best_error;
+	double best_error = std::numeric_limits<double>::max();
 	std::vector<double> best_sequence;
 public:
 

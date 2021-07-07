@@ -61,13 +61,29 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 			child.run(error_function, fitness_function, first_gradient, second_gradient, current_optimal_result);
 			auto child_result = child.get_result();
 
-			if (child_result.first < current_optimal_result->first) {
+			if (not current_optimal_result or child_result.first < current_optimal_result->first) {
 				current_optimal_result = child_result;
 			}
 		}
+
+		best_error = current_optimal_result->first;
+		best_sequence = current_optimal_result->second;
 	}
 	else{
 		/// Run children in parallel
+
+		// std::vector<std::pair<double, std::vector<double>>> children_results;
+		for (auto& child : children) {
+			child.run(error_function, fitness_function, first_gradient, second_gradient, parent_result);
+			// children_results.push_back(child.get_result());
+
+			auto c_res = child.get_result();
+			if (best_error > c_res.first) {
+				best_error = c_res.first;
+				best_sequence = c_res.second;
+			}
+		}
+
 
 	}
 }

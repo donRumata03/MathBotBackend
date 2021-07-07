@@ -15,7 +15,7 @@ private:
 	GA::continuous_GA_params params;
 
 	/// Output:
-	double best_fitness = 0;
+	double best_error = -1;
 	std::vector<double> resultant_genome;
 
 public:
