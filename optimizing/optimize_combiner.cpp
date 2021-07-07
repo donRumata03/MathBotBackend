@@ -2,7 +2,6 @@
 // Created by Vova on 01.11.2020.
 //
 
-#include <lib/libfort/fort.h>
 #include "optimize_combiner.h"
 
 OptimizationTree::OptimizationTree (const json& source, type parent_container_type)
@@ -47,17 +46,28 @@ OptimizationTree::OptimizationTree (const json& source, type parent_container_ty
 void OptimizationTree::run (const std::function<double (const std::vector<double>&)>& error_function,
                             const std::function<double (const std::vector<double>&)>& fitness_function,
                             const std::function<std::vector<double> (const std::vector<double>&)>& first_gradient,
-                            const std::function<std::vector<double> (const std::vector<double>&)>& second_gradient)
+                            const std::function<std::vector<double> (const std::vector<double>&)>& second_gradient,
+                            const std::optional<std::pair<double, std::vector<double>>>& parent_result)
 {
 	if (m_type == type::opt_block) {
-		// Just use local optimizer:
+		// Just use local optimizer and save the result:
 		// …
 	}
 	else if (m_type == type::seq_container) {
-		/// Run children in sequence
+		/// Run children in sequence, choose best of children results
+		auto current_optimal_result = parent_result;
 
+		for (auto& child : children) {
+			child.run(error_function, fitness_function, first_gradient, second_gradient, current_optimal_result);
+			auto child_result = child.get_result();
+
+			if (child_result.first < current_optimal_result->first) {
+				current_optimal_result = child_result;
+			}
+		}
 	}
 	else{
 		/// Run children in parallel
+
 	}
 }

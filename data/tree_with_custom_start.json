@@ -30,27 +30,12 @@
 			{
 				"type": "Annealing"
 			},
-			[
-				[
-					{
-						"type": "GA"
-					},
-					{
-						"type": "GD"
-					},
-					{
-						"type": "Newton"
-					}
-				],
-				[
-					{
-						"type": "GD"
-					},
-					{
-						"type": "Newton"
-					}
-				]
-			]
+			{
+				"type": "GD"
+			},
+			{
+				"type": "Newton"
+			}
 		]
 	]
 ]

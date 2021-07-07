@@ -21,15 +21,20 @@ private:
 	std::vector<OptimizationTree> children;
 	std::unique_ptr<OptimizationBlock> m_block = nullptr;
 
+	double best_error;
+	std::vector<double> best_sequence;
 public:
 
 	explicit OptimizationTree(const json& source, type parent_container_type);
-	void run(
-			const std::function<double (const std::vector<double>&)>& error_function,
-			const std::function<double (const std::vector<double>&)>& fitness_function,
-			const std::function<std::vector<double> (const std::vector<double>&)>& first_gradient,
-			const std::function<std::vector<double> (const std::vector<double>&)>& second_gradient
-	);
+	void run (const std::function<double (const std::vector<double>&)>& error_function,
+	          const std::function<double (const std::vector<double>&)>& fitness_function,
+	          const std::function<std::vector<double> (const std::vector<double>&)>& first_gradient,
+	          const std::function<std::vector<double> (const std::vector<double>&)>& second_gradient,
+	          const std::optional<std::pair<double, std::vector<double>>>& parent_result = std::nullopt);
+
+	std::pair<double, std::vector<double>> get_result() {
+		return { best_error, best_sequence };
+	}
 };
 
 
