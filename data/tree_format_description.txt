@@ -1,0 +1,23 @@
+Globally, tree is a sequence of vertical layers.
+Each layer is either one optimization block or a set of parallelly plugged constructions.
+Each of the constructions might be just an optimization_block or subsequent list.
+
+Formally,
+________________________________________________________________________
+
+tree:
+    seq_container
+
+opt_block:
+    {
+        "type": "…",
+        "parameters": { … }
+    }
+
+seq_container:
+    (opt_block | par_container)+
+
+par_container:
+    (opt_block | seq_container)+
+
+________________________________________________________________________

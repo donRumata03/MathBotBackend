@@ -1,5 +1,5 @@
 #include <pythonic.h>
-#include "optimizer.h"
+#include "base_optimizer.h"
 #include "GA/GA_optimizer.h"
 
 #include "other_optimization/local_optimization.h"
@@ -138,13 +138,13 @@ combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std
 		return fitness;
 	};
 
-	/// Counting distribution:
+	/// Counting distribution for GA:
 	auto all_countings = double(iterations);
 	size_t population_size = size_t(std::round(square(cbrt(all_countings)) * 2));
 	auto epoch_num = size_t(std::round(cbrt(all_countings) / 2));
 
 
-	/// Generate informer:
+	/// Generate informer for GA:
 	auto generated_informer = [&](size_t iteration, double current_fitness, const GA::Genome& best_genome){
 		double error_function = target_minimum + 1 / current_fitness;
 		std::cout
@@ -195,7 +195,7 @@ combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std
 			bool is_ready = false;
 
 			try {
-					is_ready = optimizer.run_one_iteration(epoch_num);
+				is_ready = optimizer.run_one_iteration(epoch_num);
 			} catch (std::exception& e) {
 				throw std::runtime_error("Error occurred while optimization in iteration №"s + std::to_string(epoch_index) + " in GA: \"" + e.what() + "\"");
 			}
@@ -290,14 +290,14 @@ combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std
 				/ number_of_variables); // Not "/ square(number_of_variables)" yet.
 
 	try {
-		Timer gd_timer("Newton processing");
+		Timer newton_timer("Newton processing");
 
 		newton_output = newton_optimize(
 				generated_error_function, generated_first_gradient, generated_second_gradient,
 				best_2nd_step_variable_sequence, 1., newton_iterations
 		);
 
-		double per_iteration = gd_timer.get_time() / double(newton_iterations);
+		double per_iteration = newton_timer.get_time() / double(newton_iterations);
 		std::cout << "(" << per_iteration << "ms per one iteration, " << newton_iterations << " iterations" << ")\n";
 	} catch(std::exception& e) {
 		throw std::runtime_error("Error occurred while optimization: "s + e.what());

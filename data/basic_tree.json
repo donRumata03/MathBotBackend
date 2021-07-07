@@ -1,0 +1,26 @@
+[
+	{
+		"type": "GA",
+		"parameters": {
+
+		}
+	},
+	{
+		"type": "Annealing",
+		"parameters": {
+
+		}
+	},
+	{
+		"type": "GD",
+		"parameters": {
+
+		}
+	},
+	{
+		"type": "Newton",
+		"parameters": {
+
+		}
+	}
+]

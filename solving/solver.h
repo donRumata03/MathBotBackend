@@ -7,7 +7,7 @@
 #include "expression_parsing.h"
 
 #include "query_processor.h"
-#include "optimizing/optimizer.h"
+#include "optimizing/base_optimizer.h"
 #include <algorithm>
 #include <utils/rounding.h>
 

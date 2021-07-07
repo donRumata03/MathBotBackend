@@ -1,7 +1,7 @@
 #include <pythonic.h>
 #include "query_processor.h"
 
-#include "optimizing/optimizer.h"
+#include "optimizing/base_optimizer.h"
 #include "plotting/plot_manager.h"
 #include "solving/solver.h"
 
