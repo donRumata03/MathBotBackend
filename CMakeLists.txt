@@ -68,7 +68,7 @@ add_executable(Math_bot_backend
         benchmark/length_benchmark.h
 
         benchmark/newton_benchmark.cpp
-        benchmark/newton_benchmark.h utils/rounding.cpp utils/rounding.h optimizing/optimize_combiner.cpp optimizing/optimize_combiner.h math_bot_config.h optimizing/OptimizationBlock.h optimizing/OptimizationTreeWrapper.cpp optimizing/OptimizationTreeWrapper.h tests/optimization_tree_tests/parsing_tests.h optimizing/nodes/GA_OptimizationBlock.cpp optimizing/nodes/GA_OptimizationBlock.h)
+        benchmark/newton_benchmark.h utils/rounding.cpp utils/rounding.h optimizing/optimize_combiner.cpp optimizing/optimize_combiner.h math_bot_config.h optimizing/OptimizationBlock.h optimizing/OptimizationTreeWrapper.cpp optimizing/OptimizationTreeWrapper.h tests/optimization_tree_tests/parsing_tests.h optimizing/nodes/GA_OptimizationBlock.cpp optimizing/nodes/GA_OptimizationBlock.h utils/sequence_plotter.h)
 
 # Find ExpressionParsing (doesn't require pythonic):
 set(ExpressionParsing_DIR ${expression_parsing_current_dir})

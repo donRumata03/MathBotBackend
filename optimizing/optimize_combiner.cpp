@@ -4,7 +4,7 @@
 
 #include "optimize_combiner.h"
 
-OptimizationTree::OptimizationTree (const json& source, type parent_container_type)
+OptimizationTree::OptimizationTree (const json& source, type _parent_container_type)
 {
 	if (source.type() == json::value_t::object) {
 		m_type = type::opt_block;
@@ -32,6 +32,7 @@ OptimizationTree::OptimizationTree (const json& source, type parent_container_ty
 	}
 	assert(source.is_array());
 
+	parent_container_type = _parent_container_type;
 	if (parent_container_type == type::seq_container) {
 		// This one is parallel:
 		m_type = type::par_container;
@@ -47,8 +48,13 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
                             const std::function<double (const std::vector<double>&)>& fitness_function,
                             const std::function<std::vector<double> (const std::vector<double>&)>& first_gradient,
                             const std::function<std::vector<double> (const std::vector<double>&)>& second_gradient,
-                            const std::optional<std::pair<double, std::vector<double>>>& parent_result)
+                            const std::optional<std::pair<double, std::vector<double>>>& parent_result,
+                            const std::vector<std::pair<BlockLinker, std::string>>& blocks_with_connections)
 {
+	auto new_blocks_with_connections = blocks_with_connections;
+	new_blocks_with_connections.push_back()
+	std::cout << console_colors::yellow << format_opt_block_sequence(new_blocks_with_connections) << "………" << console_colors::remove_all_colors << std::endl;
+
 	if (m_type == type::opt_block) {
 		// Just use local optimizer and save the result:
 		// …

@@ -3,9 +3,10 @@
 //
 
 #pragma once
+#include <utils/sequence_plotter.h>
+
+
 #include <optimizing/OptimizationBlock.h>
-
-
 #include <optimizing/nodes/GA_OptimizationBlock.h>
 
 
@@ -21,6 +22,8 @@ public:
 
 private:
 	type m_type;
+	type parent_container_type;
+
 	std::vector<OptimizationTree> children;
 	std::unique_ptr<OptimizationBlock> m_block = nullptr;
 
@@ -28,12 +31,13 @@ private:
 	std::vector<double> best_sequence;
 public:
 
-	explicit OptimizationTree(const json& source, type parent_container_type);
+	explicit OptimizationTree(const json& source, type _parent_container_type);
 	void run (const std::function<double (const std::vector<double>&)>& error_function,
 	          const std::function<double (const std::vector<double>&)>& fitness_function,
 	          const std::function<std::vector<double> (const std::vector<double>&)>& first_gradient,
 	          const std::function<std::vector<double> (const std::vector<double>&)>& second_gradient,
-	          const std::optional<std::pair<double, std::vector<double>>>& parent_result = std::nullopt);
+	          const std::optional<std::pair<double, std::vector<double>>>& parent_result = std::nullopt,
+	          const std::vector<std::pair<BlockLinker, std::string>>& blocks_with_connections = {});
 
 	std::pair<double, std::vector<double>> get_result() {
 		return { best_error, best_sequence };
