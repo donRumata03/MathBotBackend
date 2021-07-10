@@ -15,17 +15,18 @@ private:
 	GA::continuous_GA_params params;
 
 	/// Output:
-	double best_error = -1;
+	double best_error = std::numeric_limits<double>::max();
 	std::vector<double> resultant_genome;
 
 public:
-	GA_OptimizationBlock(
-			std::function<double(const GA::Genome&)> _fitness_function,
-			std::vector<std::pair<double, double>> _point_range,
-			GA::continuous_GA_params _params
-			);
+	GA_OptimizationBlock(GA::continuous_GA_params _params);
 
-	void run () override;
+	void update_optimization_objective (const std::function<double (const std::vector<double>&)>& _error_function,
+	                                    const std::function<double (const std::vector<double>&)>& _fitness_function,
+	                                    const std::function<std::vector<double> (const std::vector<double>&)>& _first_gradient,
+	                                    const std::function<std::vector<double> (const std::vector<double>&)>& _second_gradient) override;
+
+	void run (double parent_error, const std::vector<double>& parent_genome) override;
 	std::pair<double, std::vector<double>> get_result () override;
 	type get_type () override;
 };

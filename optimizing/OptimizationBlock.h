@@ -55,10 +55,22 @@ public:
 
 		// To be continued…
 	};
-
-	virtual void run() = 0;
-	virtual std::pair<double, std::vector<double>> get_result() = 0;
 	virtual type get_type() = 0;
+
+
+	virtual void run (double parent_error, const std::vector<double>& parent_genome) = 0;
+	virtual void update_optimization_objective(
+			const std::function<double (const std::vector<double>&)>& _error_function,
+			const std::function<double (const std::vector<double>&)>& _fitness_function,
+			const std::function<std::vector<double> (const std::vector<double>&)>& _first_gradient,
+			const std::function<std::vector<double> (const std::vector<double>&)>& _second_gradient
+			) = 0;
+	virtual std::pair<double, std::vector<double>> get_result() = 0;
+
+	bool result_is_ready() {
+		auto[err, g] = get_result();
+		return g.empty();
+	}
 
 	bool can_use_initial_position() {
 		auto t = get_type();

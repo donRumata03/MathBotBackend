@@ -16,7 +16,7 @@ OptimizationTree::OptimizationTree (const json& source, type parent_container_ty
 			throw std::logic_error("Function not yet implemented!");
 		}
 		else if (block_type == "GA") {
-			// TODO
+			m_block = new GA_OptimizationBlock()
 		}
 		else if (block_type == "GD") {
 			// TODO
@@ -83,7 +83,5 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 				best_sequence = c_res.second;
 			}
 		}
-
-
 	}
 }

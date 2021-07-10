@@ -5,13 +5,8 @@
 #include "GA_OptimizationBlock.h"
 
 
-GA_OptimizationBlock::GA_OptimizationBlock (std::function<double (const GA::Genome&)> _fitness_function,
-                                            std::vector<std::pair<double, double>> _point_range,
-                                            GA::continuous_GA_params _params)
-                                            :
-                                            fitness_function(std::move(_fitness_function)),
-                                            point_range(std::move(_point_range)),
-                                            params(std::move(_params))
+GA_OptimizationBlock::GA_OptimizationBlock (GA::continuous_GA_params _params)
+                                            : params(std::move(_params))
 {
 
 }
@@ -19,7 +14,7 @@ GA_OptimizationBlock::GA_OptimizationBlock (std::function<double (const GA::Geno
 
 
 
-void GA_OptimizationBlock::run ()
+void GA_OptimizationBlock::run (double parent_error, const std::vector<double>& parent_genome)
 {
 	GA::GA_optimizer opt(fitness_function, point_range, params);
 
@@ -29,7 +24,7 @@ void GA_OptimizationBlock::run ()
 std::pair<double, std::vector<double>> GA_OptimizationBlock::get_result ()
 {
 	return {
-		best_fitness,
+		best_error,
 		resultant_genome
 	};
 }
@@ -37,5 +32,22 @@ std::pair<double, std::vector<double>> GA_OptimizationBlock::get_result ()
 OptimizationBlock::type GA_OptimizationBlock::get_type ()
 {
 	return type::GA;
+}
+
+
+void GA_OptimizationBlock::update_optimization_objective (
+		const std::function<double (const std::vector<double>&)>& _error_function,
+		const std::function<double (const std::vector<double>&)>& _fitness_function,
+		const std::function<std::vector<double> (const std::vector<double>&)>& _first_gradient,
+		const std::function<std::vector<double> (const std::vector<double>&)>& _second_gradient)
+{
+	fitness_function = _fitness_function;
+
+	// Tune parameters:
+
+
+	// Reset results:
+	best_error = std::numeric_limits<double>::max();
+	resultant_genome.clear();
 }
 

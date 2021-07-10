@@ -6,6 +6,9 @@
 #include <optimizing/OptimizationBlock.h>
 
 
+#include <optimizing/nodes/GA_OptimizationBlock.h>
+
+
 class OptimizationTree
 {
 public:

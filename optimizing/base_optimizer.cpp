@@ -148,7 +148,7 @@ combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std
 	auto generated_informer = [&](size_t iteration, double current_fitness, const GA::Genome& best_genome){
 		double error_function = target_minimum + 1 / current_fitness;
 		std::cout
-			<< "GA percent: " << percent_plotter(iteration, epoch_num, 1)
+			<< "ᎶᎯ percent: " << percent_plotter(iteration, epoch_num, 1)
 			<< " | Current error: " << error_function
 			<< " | Best genome: " << best_genome
 		<< std::endl;
