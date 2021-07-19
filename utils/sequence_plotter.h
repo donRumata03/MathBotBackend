@@ -24,12 +24,21 @@ inline std::map<BlockLinker, std::string> block_linker_to_string = {
 //	return "->";
 //}
 
-std::string format_opt_block_sequence (const std::vector<std::pair<BlockLinker, std::string>>& blocks_with_connections)
+inline std::string format_opt_block_sequence (const std::vector<std::variant<BlockLinker, std::string>>& blocks_and_connections)
 {
 	std::string res;
-	for (const auto& block_with_connection : blocks_with_connections) {
-		res += std::string(block_with_connection.first);
-		res += " " + block_with_connection.second + " ";
+	bool is_start = true;
+	for (const auto& block_or_connection : blocks_and_connections) {
+		if (not is_start) res += " ";
+		else is_start = false;
+
+
+		if (std::holds_alternative<BlockLinker>(block_or_connection)) {
+			res += block_linker_to_string[std::get<BlockLinker>(block_or_connection)];
+		}
+		else {
+			res += std::get<std::string>(block_or_connection);
+		}
 	}
 
 	return res;

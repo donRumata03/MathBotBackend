@@ -52,7 +52,7 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
                             const std::vector<std::pair<BlockLinker, std::string>>& blocks_with_connections)
 {
 	auto new_blocks_with_connections = blocks_with_connections;
-	new_blocks_with_connections.push_back()
+	// new_blocks_with_connections.push_back({ BlockLinker::, });
 	std::cout << console_colors::yellow << format_opt_block_sequence(new_blocks_with_connections) << "………" << console_colors::remove_all_colors << std::endl;
 
 	if (m_type == type::opt_block) {
