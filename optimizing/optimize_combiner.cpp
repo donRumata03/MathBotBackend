@@ -49,15 +49,32 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
                             const std::function<std::vector<double> (const std::vector<double>&)>& first_gradient,
                             const std::function<std::vector<double> (const std::vector<double>&)>& second_gradient,
                             const std::optional<std::pair<double, std::vector<double>>>& parent_result,
-                            const std::vector<std::pair<BlockLinker, std::string>>& blocks_with_connections)
+                            const std::vector<std::variant<BlockLinker, std::string>>& blocks_with_connections)
 {
 	auto new_blocks_with_connections = blocks_with_connections;
-	// new_blocks_with_connections.push_back({ BlockLinker::, });
-	std::cout << console_colors::yellow << format_opt_block_sequence(new_blocks_with_connections) << "………" << console_colors::remove_all_colors << std::endl;
+
+	switch (m_type) {
+		case type::opt_block: new_blocks_with_connections.push_back(m_block->get_type_name());
+		case type::seq_container: new_blocks_with_connections.push_back(BlockLinker::seq);
+		case type::par_container: new_blocks_with_connections.push_back(BlockLinker::par);
+	}
+	std::cout << (m_type == type::opt_block ? console_colors::yellow : console_colors::blue)
+		<< format_opt_block_sequence(new_blocks_with_connections) << "………"
+	<< console_colors::remove_all_colors << std::endl;
 
 	if (m_type == type::opt_block) {
 		// Just use local optimizer and save the result:
 		// …
+		display_delimiter();
+		std::cout << console_colors::purple
+			<< "Optimizing with " << console_colors::underlined << std::get<std::string>(new_blocks_with_connections.back())
+		<< console_colors::remove_all_colors << "" << std::endl;
+
+		// …
+		// …
+		// …
+
+		display_delimiter();
 	}
 	else if (m_type == type::seq_container) {
 		/// Run children in sequence, choose best of children results
@@ -90,4 +107,5 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 			}
 		}
 	}
+
 }

@@ -76,6 +76,20 @@ public:
 		auto t = get_type();
 		return t != type::GA;
 	}
+
+	std::string get_type_name() {
+		switch (get_type()) {
+			case type::GA:
+				return "GA";
+			case type::Annealing:
+				return "Annealing";
+			case type::GD:
+				return "GD";
+			case type::Newton:
+				return "Newton";
+		}
+		return "Unknown!";
+	}
 };
 
 

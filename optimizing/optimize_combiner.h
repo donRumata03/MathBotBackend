@@ -37,7 +37,7 @@ public:
 	          const std::function<std::vector<double> (const std::vector<double>&)>& first_gradient,
 	          const std::function<std::vector<double> (const std::vector<double>&)>& second_gradient,
 	          const std::optional<std::pair<double, std::vector<double>>>& parent_result = std::nullopt,
-	          const std::vector<std::pair<BlockLinker, std::string>>& blocks_with_connections = {});
+	          const std::vector<std::variant<BlockLinker, std::string>>& blocks_with_connections = {});
 
 	std::pair<double, std::vector<double>> get_result() {
 		return { best_error, best_sequence };
