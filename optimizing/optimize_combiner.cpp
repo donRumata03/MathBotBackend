@@ -76,44 +76,48 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 
 		display_delimiter();
 	}
-	else if (m_type == type::seq_container) {
-		std::cout << console_colors::underlined << "Start sequenced container" << console_colors::remove_all_colors << " {" << std::endl;
+	else {
+		std::cout << console_colors::underlined << "Start " << (m_type == type::seq_container ? "sequence" : "parallel")
+		<< " container" << console_colors::remove_all_colors << " {" << std::endl;
 
-		/// Run children in sequence, choose best of children results
-		auto current_optimal_result = parent_result;
+		if (m_type == type::seq_container) {
+			/// Run children in sequence, choose best of children results
+			auto current_optimal_result = parent_result;
 
-		for (auto& child : children) {
-			child.run(error_function, fitness_function, first_gradient, second_gradient, current_optimal_result);
-			auto child_result = child.get_result();
+			for (auto& child : children) {
+				child.run(error_function, fitness_function, first_gradient, second_gradient, current_optimal_result);
+				auto child_result = child.get_result();
 
-			bool opt_updated_now = false;
-			if (not current_optimal_result or child_result.first < current_optimal_result->first) {
-				current_optimal_result = child_result;
-				opt_updated_now = true;
+				bool opt_updated_now = false;
+				if (not current_optimal_result or child_result.first < current_optimal_result->first) {
+					current_optimal_result = child_result;
+					opt_updated_now = true;
+				}
+				std::cout << "[SeqContainer]: best_error after block „" << child.m_block->get_type_name() << "”: " << current_optimal_result->first
+				          << "(" << (opt_updated_now ? "updated" : "not updated") << ")" << std::endl;
 			}
-			std::cout << "[SeqContainer]: best_error after block „" << child.m_block->get_type_name() << "”: " << *current_optimal_result
-			<< "(" << (opt_updated_now ? "updated" : "not updated") << ")" << std::endl;
+
+			best_error = current_optimal_result->first;
+			best_sequence = current_optimal_result->second;
+		}
+		else{
+			/// Run children in parallel
+			for (auto& child : children) {
+				child.run(error_function, fitness_function, first_gradient, second_gradient, parent_result);
+				// children_results.push_back(child.get_result());
+
+				auto c_res = child.get_result();
+				bool renewed_now = false;
+				if (best_error > c_res.first) {
+					best_error = c_res.first;
+					best_sequence = c_res.second;
+					renewed_now = true;
+				}
+				std::cout << "[ParContainer]: next block processed (" << child.m_block->get_type_name() << "): best_error is "
+				<< best_error << "(" << (renewed_now ? "updated" : "not updated") << ")" << std::endl;
+			}
 		}
 
-		best_error = current_optimal_result->first;
-		best_sequence = current_optimal_result->second;
-
-		std::cout << "} (end sequence container; best_error: " << best_error << ")" << std::endl;
+		std::cout << "} (end " << (m_type == type::seq_container ? "sequence" : "parallel") << " container; best_error: " << best_error << ")" << std::endl;
 	}
-	else{
-		/// Run children in parallel
-
-		// std::vector<std::pair<double, std::vector<double>>> children_results;
-		for (auto& child : children) {
-			child.run(error_function, fitness_function, first_gradient, second_gradient, parent_result);
-			// children_results.push_back(child.get_result());
-
-			auto c_res = child.get_result();
-			if (best_error > c_res.first) {
-				best_error = c_res.first;
-				best_sequence = c_res.second;
-			}
-		}
-	}
-
 }
