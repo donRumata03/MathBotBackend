@@ -121,3 +121,33 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 		std::cout << "} (end " << (m_type == type::seq_container ? "sequence" : "parallel") << " container; best_error: " << best_error << ")" << std::endl;
 	}
 }
+
+double OptimizationTree::count_total_time_weight () const
+{
+	switch (m_type) {
+		case type::opt_block:
+			return m_block->time_weight;
+		case type::seq_container:
+		case type::par_container:
+		{
+			std::vector<double> child_results(children.size());
+			std::transform(children.begin(), children.end(), child_results.begin(), [](const OptimizationTree& tree){ return tree.count_total_time_weight(); });
+			return std::accumulate(child_results.begin(), child_results.end(), 0.);
+		}
+	}
+
+	return 0;
+}
+
+size_t OptimizationTree::push_iteration_plan (double target_iterations)
+{
+	return set_all_blocks_iterations(target_iterations, count_total_time_weight());
+}
+
+size_t OptimizationTree::set_all_blocks_iterations (double target_iterations, double total_weight)
+{
+	if (m_type == type::opt_block) {
+		m_block->update_computations()
+	}
+	return 0;
+}

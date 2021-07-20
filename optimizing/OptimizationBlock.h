@@ -46,6 +46,12 @@
 class OptimizationBlock
 {
 public:
+	double time_weight {};
+	size_t min_it {};
+
+	double computations_resource_in_units {};
+
+public:
 	enum class type
 	{
 		GA,
@@ -55,8 +61,10 @@ public:
 
 		// To be continued…
 	};
-	virtual type get_type() = 0;
 
+	/// Functions to be implemented in derived class:
+
+	virtual type get_type() = 0;
 
 	virtual void update_optimization_objective(
 			const std::function<double (const std::vector<double>&)>& _error_function,
@@ -69,6 +77,9 @@ public:
 	virtual void run (double parent_error, const std::vector<double>& parent_genome) = 0;
 
 	virtual std::pair<double, std::vector<double>> get_result() = 0;
+
+public:
+/// Generated 2nd order functions:
 
 	bool result_is_ready() {
 		auto[err, g] = get_result();

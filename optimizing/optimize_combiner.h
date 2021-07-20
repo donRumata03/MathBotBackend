@@ -29,8 +29,8 @@ private:
 
 	double best_error = std::numeric_limits<double>::max();
 	std::vector<double> best_sequence;
-public:
 
+public:
 	explicit OptimizationTree(const json& source, type _parent_container_type);
 	void run (const std::function<double (const std::vector<double>&)>& error_function,
 	          const std::function<double (const std::vector<double>&)>& fitness_function,
@@ -42,6 +42,15 @@ public:
 	std::pair<double, std::vector<double>> get_result() {
 		return { best_error, best_sequence };
 	}
+
+	/**
+	 * @returns actual number of iterations
+	 */
+	size_t push_iteration_plan(double target_iterations);
+	size_t set_all_blocks_iterations(double target_iterations, double total_weight);
+
+private:
+	double count_total_time_weight() const;
 };
 
 
