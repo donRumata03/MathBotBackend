@@ -139,12 +139,12 @@ double OptimizationTree::count_total_time_weight () const
 	return 0;
 }
 
-size_t OptimizationTree::push_iteration_plan (double target_iterations)
+void OptimizationTree::push_iteration_plan (double target_iterations)
 {
 	return set_all_blocks_iterations(target_iterations, count_total_time_weight());
 }
 
-size_t OptimizationTree::set_all_blocks_iterations (double target_iterations, double total_weight)
+void OptimizationTree::set_all_blocks_iterations (double target_iterations, double total_weight)
 {
 	if (m_type == type::opt_block) {
 		m_block->update_computations()

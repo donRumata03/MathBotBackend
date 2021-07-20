@@ -43,11 +43,8 @@ public:
 		return { best_error, best_sequence };
 	}
 
-	/**
-	 * @returns actual number of iterations
-	 */
-	size_t push_iteration_plan(double target_iterations);
-	size_t set_all_blocks_iterations(double target_iterations, double total_weight);
+	void push_iteration_plan(double target_iterations);
+	void set_all_blocks_iterations(double target_iterations, double total_weight);
 
 private:
 	double count_total_time_weight() const;
