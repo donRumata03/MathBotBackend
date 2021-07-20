@@ -16,12 +16,17 @@ void GA_OptimizationBlock::run (double parent_error, const std::vector<double>& 
 	if (not fitness_function) throw std::logic_error("Can't run without objective");
 	if (computations_resource_in_units <= 0) throw std::logic_error("Can't run without computational resource");
 
+	// Distribute computations:
 	double fitness_function_computations = computations_resource_in_units;
 	computation_distribution = GA::distribute_computations_defaultly(fitness_function_computations);
 	params.population_size = computation_distribution.population_size;
 	std::cout << "[GA_OptimizationBlock]: " << computation_distribution << std::endl;
 
-	/// Initialize GA optimizer:
+	// Parameters:
+	size_t variable_number = point_ranges.size();
+	params.mutation_params.target_gene_mutation_number = 0.3 * double(variable_number);
+
+	/// Initialize GA optimizer (ignore parent error):
 	GA::GA_optimizer optimizer(fitness_function, point_ranges, params);
 
 	/// Callback (counts error by genome; prints genome if its length <= 5):

@@ -4,19 +4,27 @@
 
 #include "optimize_combiner.h"
 
+#include <memory>
+
 OptimizationTree::OptimizationTree (const json& source, type _parent_container_type)
 {
 	if (source.type() == json::value_t::object) {
 		m_type = type::opt_block;
-		// Set parameters:
+
+		// Initialize this block:
 		auto params_json = source["parameters"];
 		std::string block_type = source["type"];
 
 		if (block_type == "Annealing") {
-			throw std::logic_error("Function not yet implemented!");
+			throw std::logic_error("This type of block not yet implemented!");
 		}
 		else if (block_type == "GA") {
-			m_block = new GA_OptimizationBlock()
+			auto params = GA::continuous_GA_params{};
+			params.mutation_params.mutation_percent_sigma = 0.075;
+
+			m_block = std::make_unique<GA_OptimizationBlock>(
+				params
+			);
 		}
 		else if (block_type == "GD") {
 			// TODO
@@ -27,6 +35,10 @@ OptimizationTree::OptimizationTree (const json& source, type _parent_container_t
 		else {
 			throw std::logic_error("Bad optimization block name!");
 		}
+
+		// Universal parameters for blocks:
+		if (params_json.contains("time_weight")) m_block->time_weight = params_json["time_weight"].get<li>();
+		if (params_json.contains("min_it")) m_block->min_it = params_json["min_it"].get<li>();
 
 		return;
 	}
