@@ -58,13 +58,16 @@ public:
 	virtual type get_type() = 0;
 
 
-	virtual void run (double parent_error, const std::vector<double>& parent_genome) = 0;
 	virtual void update_optimization_objective(
 			const std::function<double (const std::vector<double>&)>& _error_function,
 			const std::function<double (const std::vector<double>&)>& _fitness_function,
 			const std::function<std::vector<double> (const std::vector<double>&)>& _first_gradient,
 			const std::function<std::vector<double> (const std::vector<double>&)>& _second_gradient
 			) = 0;
+	virtual void update_computations(size_t new_countings) = 0;
+
+	virtual void run (double parent_error, const std::vector<double>& parent_genome) = 0;
+
 	virtual std::pair<double, std::vector<double>> get_result() = 0;
 
 	bool result_is_ready() {
@@ -88,7 +91,7 @@ public:
 			case type::Newton:
 				return "Newton";
 		}
-		return "Unknown!";
+		return "Unknown Algorithm!";
 	}
 };
 

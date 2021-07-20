@@ -43,11 +43,17 @@ void GA_OptimizationBlock::update_optimization_objective (
 {
 	fitness_function = _fitness_function;
 
-	// Tune parameters:
-
 
 	// Reset results:
 	best_error = std::numeric_limits<double>::max();
 	resultant_genome.clear();
+}
+
+void GA_OptimizationBlock::update_computations (size_t new_countings)
+{
+	computation_distribution = GA::distribute_computations_defaultly(new_countings);
+
+	// Tune parameters:
+	params.population_size = computation_distribution.population_size;
 }
 

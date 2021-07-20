@@ -2,25 +2,25 @@
 	{
 		"type": "GA",
 		"parameters": {
-
+			"min_it": 2000
 		}
 	},
 	{
 		"type": "Annealing",
 		"parameters": {
-
+			"min_it": 2000
 		}
 	},
 	{
 		"type": "GD",
 		"parameters": {
-
+			"min_it": 20
 		}
 	},
 	{
 		"type": "Newton",
 		"parameters": {
-
+			"min_it": 15
 		}
 	}
 ]
