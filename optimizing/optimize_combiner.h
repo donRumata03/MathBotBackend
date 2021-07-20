@@ -30,6 +30,8 @@ private:
 	double best_error = std::numeric_limits<double>::max();
 	std::vector<double> best_sequence;
 
+	bool has_set_iterations = false;
+
 public:
 	explicit OptimizationTree(const json& source, type _parent_container_type);
 	void run (const std::function<double (const std::vector<double>&)>& error_function,

@@ -51,6 +51,8 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
                             const std::optional<std::pair<double, std::vector<double>>>& parent_result,
                             const std::vector<std::variant<BlockLinker, std::string>>& blocks_with_connections)
 {
+	if (not has_set_iterations) throw std::logic_error("First " + strike_text_through("the kiss, then the cum!") + " — set iterations for tree, then — run");
+
 	auto new_blocks_with_connections = blocks_with_connections;
 
 	switch (m_type) {
@@ -146,6 +148,8 @@ void OptimizationTree::push_iteration_plan (double target_iterations)
 
 void OptimizationTree::set_all_blocks_resource (double target_iterations, double total_weight)
 {
+	has_set_iterations = true;
+
 	if (m_type == type::opt_block) {
 		m_block->computations_resource_in_units = target_iterations * (m_block->time_weight / total_weight);
 	}
