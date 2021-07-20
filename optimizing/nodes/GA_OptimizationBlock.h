@@ -11,8 +11,9 @@ class GA_OptimizationBlock : public OptimizationBlock
 private:
 	/// Input:
 	std::function<double (const GA::Genome&)> fitness_function;
-	std::vector<std::pair<double, double>> point_range;
 	GA::continuous_GA_params params;
+
+	std::function<double (const GA::Genome&)> error_function; // To get resultant error
 
 	/// Temp:
 	GA::ComputationDistribution computation_distribution;
@@ -28,10 +29,11 @@ public:
 	                                    const std::function<double (const std::vector<double>&)>& _fitness_function,
 	                                    const std::function<std::vector<double> (const std::vector<double>&)>& _first_gradient,
 	                                    const std::function<std::vector<double> (const std::vector<double>&)>& _second_gradient) override;
-	void update_computations (size_t new_countings) override;
 
 
-	void run (double parent_error, const std::vector<double>& parent_genome) override;
+	void run (double parent_error, const std::vector<double>& parent_genome,
+	          const std::vector<std::pair<double, double>>& point_ranges) override;
+
 	std::pair<double, std::vector<double>> get_result () override;
 	type get_type () override;
 };

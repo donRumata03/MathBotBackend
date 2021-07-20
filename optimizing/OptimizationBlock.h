@@ -46,10 +46,10 @@
 class OptimizationBlock
 {
 public:
-	double time_weight {};
+	double time_weight = -1;
 	size_t min_it {};
 
-	double computations_resource_in_units {};
+	double computations_resource_in_units = -1;
 
 public:
 	enum class type
@@ -66,15 +66,17 @@ public:
 
 	virtual type get_type() = 0;
 
+	virtual double iteration_cost_units() { return 1; }
+
 	virtual void update_optimization_objective(
 			const std::function<double (const std::vector<double>&)>& _error_function,
 			const std::function<double (const std::vector<double>&)>& _fitness_function,
 			const std::function<std::vector<double> (const std::vector<double>&)>& _first_gradient,
 			const std::function<std::vector<double> (const std::vector<double>&)>& _second_gradient
 			) = 0;
-	virtual void update_computations(size_t new_countings) = 0;
 
-	virtual void run (double parent_error, const std::vector<double>& parent_genome) = 0;
+	virtual void run (double parent_error, const std::vector<double>& parent_genome,
+	                  const std::vector<std::pair<double, double>>& point_ranges) = 0;
 
 	virtual std::pair<double, std::vector<double>> get_result() = 0;
 

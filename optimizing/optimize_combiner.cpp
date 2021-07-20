@@ -71,10 +71,16 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 		std::cout << console_colors::purple
 			<< "Optimizing with " << console_colors::underlined << std::get<std::string>(new_blocks_with_connections.back())
 		<< console_colors::remove_all_colors << "" << std::endl;
+		// ______________________________________________________________________
 
-		// …
-		// …
-		// …
+		m_block->update_optimization_objective(
+				error_function,
+				fitness_function,
+				first_gradient,
+				second_gradient
+				);
+
+		// ______________________________________________________________________
 
 		display_delimiter();
 	}
