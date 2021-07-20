@@ -141,13 +141,15 @@ double OptimizationTree::count_total_time_weight () const
 
 void OptimizationTree::push_iteration_plan (double target_iterations)
 {
-	return set_all_blocks_iterations(target_iterations, count_total_time_weight());
+	set_all_blocks_resource(target_iterations, count_total_time_weight());
 }
 
-void OptimizationTree::set_all_blocks_iterations (double target_iterations, double total_weight)
+void OptimizationTree::set_all_blocks_resource (double target_iterations, double total_weight)
 {
 	if (m_type == type::opt_block) {
-		m_block->update_computations()
+		m_block->computations_resource_in_units = target_iterations * (m_block->time_weight / total_weight);
 	}
-	return 0;
+	else {
+		set_all_blocks_resource(target_iterations, total_weight);
+	}
 }

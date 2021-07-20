@@ -44,10 +44,10 @@ public:
 	}
 
 	void push_iteration_plan(double target_iterations);
-	void set_all_blocks_iterations(double target_iterations, double total_weight);
+	void set_all_blocks_resource(double target_iterations, double total_weight);
 
 private:
-	double count_total_time_weight() const;
+	[[nodiscard]] double count_total_time_weight() const;
 };
 
 
