@@ -67,9 +67,9 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 	auto new_blocks_with_connections = blocks_with_connections;
 
 	switch (m_type) {
-		case type::opt_block: new_blocks_with_connections.push_back(m_block->get_type_name());
-		case type::seq_container: new_blocks_with_connections.push_back(BlockLinker::seq);
-		case type::par_container: new_blocks_with_connections.push_back(BlockLinker::par);
+		case type::opt_block: new_blocks_with_connections.emplace_back(m_block->get_type_name());
+		case type::seq_container: new_blocks_with_connections.emplace_back(BlockLinker::seq);
+		case type::par_container: new_blocks_with_connections.emplace_back(BlockLinker::par);
 	}
 	std::cout << (m_type == type::opt_block ? console_colors::yellow : console_colors::blue)
 		<< format_opt_block_sequence(new_blocks_with_connections) << "………"
