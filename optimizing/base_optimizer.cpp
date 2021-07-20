@@ -68,9 +68,9 @@ combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std
 		second_derivative_trees.emplace_back(this_tree);
 	}
 
-	double function_tree_nodes = std::sqrt(double(tree->count_operation_number() * tree->count_node_number()));
-	double first_derivative_tree_nodes = std::sqrt(double(first_derivative_trees[0]->count_operation_number() * first_derivative_trees[0]->count_node_number()));
-	double second_derivative_tree_nodes = std::sqrt(double(second_derivative_trees[0]->count_operation_number() * second_derivative_trees[0]->count_node_number()));
+	double function_tree_nodes = tree->count_collective_size();
+	double first_derivative_tree_nodes = first_derivative_trees[0]->count_collective_size();
+	double second_derivative_tree_nodes = second_derivative_trees[0]->count_collective_size();
 	printvar(function_tree_nodes);
 	printvar(first_derivative_tree_nodes);
 	printvar(second_derivative_tree_nodes);
