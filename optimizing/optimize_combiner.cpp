@@ -37,8 +37,7 @@ OptimizationTree::OptimizationTree (const json& source, type _parent_container_t
 		}
 
 		// Universal parameters for blocks:
-		if (params_json.contains("time_weight")) m_block->time_weight = params_json["time_weight"].get<li>();
-		if (params_json.contains("min_it")) m_block->min_it = params_json["min_it"].get<li>();
+		m_block->collect_universal_hyperparameters(params_json);
 
 		return;
 	}
