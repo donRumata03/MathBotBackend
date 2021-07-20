@@ -92,6 +92,9 @@ public:
 		auto t = get_type();
 		return t != type::GA;
 	}
+	bool initial_position_recommended() {
+		return is_in(std::initializer_list<type>{ type::GD, type::Newton }, get_type());
+	}
 
 	std::string get_type_name() {
 		switch (get_type()) {

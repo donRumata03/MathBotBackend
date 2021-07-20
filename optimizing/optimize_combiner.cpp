@@ -91,6 +91,22 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 				second_gradient
 				);
 
+		/// Optionally, generate initial point, if recommended
+		if (not parent_result) {
+			if (m_block->initial_position_recommended()) {
+				// TODO: Warn and generate
+			}
+			else {
+				// TODO: run without generating
+			}
+		}
+		else{
+			// TODO: If can use parent result: run; else — warn!
+		}
+		// m_block->can_use_initial_position()
+
+		m_block->run(parent_result);
+
 		// ______________________________________________________________________
 
 		display_delimiter();
