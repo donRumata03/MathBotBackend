@@ -7,11 +7,7 @@
 
 GA_OptimizationBlock::GA_OptimizationBlock (GA::continuous_GA_params _params)
                                             : params(std::move(_params))
-{
-
-}
-
-
+{}
 
 
 void GA_OptimizationBlock::run (double parent_error, const std::vector<double>& parent_genome,
@@ -25,11 +21,26 @@ void GA_OptimizationBlock::run (double parent_error, const std::vector<double>& 
 	params.population_size = computation_distribution.population_size;
 	std::cout << "[GA_OptimizationBlock]: " << computation_distribution << std::endl;
 
-	/// Initialize:
-	GA::GA_optimizer opt(fitness_function, point_ranges, params);
-	opt.run_all_iterations(computation_distribution.epoch_number);
+	/// Initialize GA optimizer:
+	GA::GA_optimizer optimizer(fitness_function, point_ranges, params);
 
-	resultant_genome = opt.get_best_genome();
+	/// Callback (counts error by genome; prints genome if its length <= 5):
+	auto callback = [&](const size_t iterations_performed, const double best_fitness, const std::vector<double>& best_genome)
+	{
+		std::cout << "GA: " << percent_plotter(iterations_performed, computation_distribution.epoch_number, 2)
+		<< " iterations performed; best error now: " << error_function(best_genome);
+
+		if (best_genome.size() <= 5) std::cout << "; best genome: " << best_genome;
+
+		std::cout << std::endl;
+	};
+	optimizer.set_informer(callback);
+
+
+	/// Run
+	optimizer.run_all_iterations(computation_distribution.epoch_number);
+
+	resultant_genome = optimizer.get_best_genome();
 	best_error = error_function(resultant_genome);
 }
 

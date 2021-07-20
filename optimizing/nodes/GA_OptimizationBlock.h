@@ -13,7 +13,7 @@ private:
 	std::function<double (const GA::Genome&)> fitness_function;
 	GA::continuous_GA_params params;
 
-	std::function<double (const GA::Genome&)> error_function; // To get resultant error
+	std::function<double (const GA::Genome&)> error_function; // To get error by genome in callbacks and in the end
 
 	/// Temp:
 	GA::ComputationDistribution computation_distribution;
