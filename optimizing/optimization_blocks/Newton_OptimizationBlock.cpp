@@ -29,7 +29,8 @@ void Newton_OptimizationBlock::run (const std::vector<double>& parent_genome,
                                     const std::vector<std::pair<double, double>>& point_ranges)
 {
 	newton_optimize(error_function, first_gradient, second_gradient,
-				    parent_genome, 0.99, computations_resource_in_units / iteration_cost_units());
+				    parent_genome, 0.99,
+				    size_t(std::round(computations_resource_in_units / iteration_cost_units())));
 }
 
 std::pair<double, std::vector<double>> Newton_OptimizationBlock::get_result ()

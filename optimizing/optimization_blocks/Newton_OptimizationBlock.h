@@ -24,6 +24,8 @@ private:
 
 
 public:
+	explicit Newton_OptimizationBlock() = default;
+
 	type get_type () override;
 
 	double iteration_cost_units () override;

@@ -1,0 +1,16 @@
+[
+	{
+		"type": "GA",
+		"parameters": {
+			"min_it": 2000,
+			"time_weight": 1
+		}
+	},
+	{
+		"type": "Newton",
+		"parameters": {
+			"min_it": 15,
+			"time_weight": 0.1
+		}
+	}
+]

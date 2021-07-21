@@ -2,6 +2,7 @@
 // Created by Vova on 01.11.2020.
 //
 
+#include <optimizing/optimization_blocks/Newton_OptimizationBlock.h>
 #include "optimize_combiner.h"
 
 
@@ -29,7 +30,7 @@ OptimizationTree::OptimizationTree (const json& source, type parent_container_ty
 			// TODO
 		}
 		else if (block_type == "Newton") {
-			// TODO
+			m_block = std::make_unique<Newton_OptimizationBlock>();
 		}
 		else {
 			throw std::logic_error("Bad optimization block name!");
@@ -133,7 +134,7 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 			auto current_optimal_result = parent_result;
 
 			for (auto& child : children) {
-				child.run(error_function, fitness_function, first_gradient, second_gradient, <#initializer#>,
+				child.run(error_function, fitness_function, first_gradient, second_gradient, gradient_tree_sizes,
 				          search_domain,
 				          current_optimal_result,
 				          new_blocks_with_connections
@@ -155,7 +156,7 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 		else{
 			/// Run children in parallel
 			for (auto& child : children) {
-				child.run(error_function, fitness_function, first_gradient, second_gradient, <#initializer#>,
+				child.run(error_function, fitness_function, first_gradient, second_gradient, gradient_tree_sizes,
 				          search_domain,
 				          std::pair { best_error, best_sequence },
 				          new_blocks_with_connections
