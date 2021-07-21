@@ -16,6 +16,8 @@ private:
 	std::function<std::vector<double> (const std::vector<double>&)> first_gradient;
 	std::function<std::vector<double> (const std::vector<double>&)> second_gradient;
 
+	std::vector<double> grad_tree_sizes;
+
 	/// Output:
 	double best_error = std::numeric_limits<double>::infinity();
 	std::vector<double> best_sequence;
@@ -24,7 +26,7 @@ private:
 public:
 	type get_type () override;
 
-	double iteration_cost_units (const std::vector<double>& gradient_tree_sizes) override;
+	double iteration_cost_units () override;
 
 	void update_optimization_objective (
 			const std::function<double (const std::vector<double>&)>& _error_function,

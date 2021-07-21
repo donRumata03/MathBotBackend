@@ -20,6 +20,8 @@ void Newton_OptimizationBlock::update_optimization_objective (
 	fitness_function = _fitness_function;
 	first_gradient = _first_gradient;
 	second_gradient = _second_gradient;
+
+	grad_tree_sizes = gradient_tree_sizes;
 }
 
 void Newton_OptimizationBlock::run (const std::vector<double>& parent_genome,
@@ -37,11 +39,11 @@ std::pair<double, std::vector<double>> Newton_OptimizationBlock::get_result ()
 	};
 }
 
-double Newton_OptimizationBlock::iteration_cost_units (const std::vector<double>& gradient_tree_sizes)
+double Newton_OptimizationBlock::iteration_cost_units ()
 {
 	if (not error_function or not first_gradient or not second_gradient) {
 		throw std::logic_error("Can't count iteration_cost_units without knowing function, gradient and 2nd gradient!");
 	}
 
-	return (gradient_tree_sizes[0] + gradient_tree_sizes[1] + gradient_tree_sizes[2]) / gradient_tree_sizes[0];
+	return (grad_tree_sizes[0] + grad_tree_sizes[1] + grad_tree_sizes[2]) / grad_tree_sizes[0];
 }
