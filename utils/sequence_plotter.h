@@ -27,10 +27,14 @@ inline std::map<BlockLinker, std::string> block_linker_to_string = {
 inline std::string format_opt_block_sequence (const std::vector<std::variant<BlockLinker, std::string>>& blocks_and_connections)
 {
 	std::string res;
-	bool is_start = true;
-	for (const auto& block_or_connection : blocks_and_connections) {
-		if (not is_start) res += " ";
-		else is_start = false;
+	for (size_t i = 0; i < blocks_and_connections.size(); ++i) {
+		auto block_or_connection = blocks_and_connections[i];
+
+		if (i != blocks_and_connections.size() - 1
+			and std::holds_alternative<std::string>(blocks_and_connections[i])
+			and std::holds_alternative<std::string>(blocks_and_connections[i + 1]))
+				res += ";";
+		if (i != 0) res += " ";
 
 
 		if (std::holds_alternative<BlockLinker>(block_or_connection)) {
