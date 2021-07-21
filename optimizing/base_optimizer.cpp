@@ -233,7 +233,7 @@ combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std
 	// size_t GD_iterations = iterations / (6.25 + 1);
 	double GD_coolness_coefficient = 0.5;
 	size_t GD_iterations = std::round(GD_coolness_coefficient * iterations
-			* function_tree_nodes / (function_tree_nodes + first_derivative_tree_nodes) / number_of_variables);
+			* function_tree_nodes / (function_tree_nodes + first_derivative_tree_nodes));
 
 	try {
 		{
@@ -286,8 +286,8 @@ combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std
 	// size_t newton_iterations = iterations / (40 + 6.25 + 1);
 	double Newton_coolness_coefficient = 1.5;
 	size_t newton_iterations = std::round(Newton_coolness_coefficient * iterations
-			* function_tree_nodes / (function_tree_nodes + first_derivative_tree_nodes + second_derivative_tree_nodes)
-				/ number_of_variables); // Not "/ square(number_of_variables)" yet.
+			* function_tree_nodes / (function_tree_nodes + first_derivative_tree_nodes + second_derivative_tree_nodes));
+	// Not "/ number_of_variables" yet (it would be Hessian).
 
 	try {
 		Timer newton_timer("Newton processing");
