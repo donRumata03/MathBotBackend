@@ -31,8 +31,7 @@ public:
 	                                    const std::function<std::vector<double> (const std::vector<double>&)>& _second_gradient) override;
 
 
-	void run (double parent_error, const std::vector<double>& parent_genome,
-	          const std::vector<std::pair<double, double>>& point_ranges) override;
+	void run (const std::vector<double>& parent_genome, const std::vector<std::pair<double, double>>& point_ranges) override;
 
 	std::pair<double, std::vector<double>> get_result () override;
 	type get_type () override;

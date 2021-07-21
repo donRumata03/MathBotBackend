@@ -10,7 +10,7 @@ GA_OptimizationBlock::GA_OptimizationBlock (GA::continuous_GA_params _params)
 {}
 
 
-void GA_OptimizationBlock::run (double parent_error, const std::vector<double>& parent_genome,
+void GA_OptimizationBlock::run (const std::vector<double>& parent_genome,
                                 const std::vector<std::pair<double, double>>& point_ranges)
 {
 	if (not fitness_function) throw std::logic_error("Can't run without objective");

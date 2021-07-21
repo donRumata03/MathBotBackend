@@ -4,7 +4,6 @@
 
 #include "optimize_combiner.h"
 
-#include <memory>
 
 OptimizationTree::OptimizationTree (const json& source, type _parent_container_type)
 {
@@ -117,7 +116,7 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 		}
 		// m_block->can_use_initial_position()
 
-		m_block->run(parent_result);
+		m_block->run(starting_point_for_algorithm, search_domain);
 
 		// ______________________________________________________________________
 
@@ -132,8 +131,7 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 			auto current_optimal_result = parent_result;
 
 			for (auto& child : children) {
-				child.run(error_function, fitness_function, first_gradient, second_gradient, <#initializer#>,
-				          current_optimal_result, <#initializer#>);
+				child.run(fitness_function, first_gradient);
 				auto child_result = child.get_result();
 
 				bool opt_updated_now = false;
@@ -151,8 +149,7 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 		else{
 			/// Run children in parallel
 			for (auto& child : children) {
-				child.run(error_function, fitness_function, first_gradient, second_gradient, <#initializer#>,
-				          parent_result, <#initializer#>);
+				child.run(fitness_function, first_gradient);
 				// children_results.push_back(child.get_result());
 
 				auto c_res = child.get_result();

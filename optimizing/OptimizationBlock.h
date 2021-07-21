@@ -75,8 +75,7 @@ public:
 			const std::function<std::vector<double> (const std::vector<double>&)>& _second_gradient
 			) = 0;
 
-	virtual void run (double parent_error, const std::vector<double>& parent_genome,
-	                  const std::vector<std::pair<double, double>>& point_ranges) = 0;
+	virtual void run (const std::vector<double>& parent_genome, const std::vector<std::pair<double, double>>& point_ranges) = 0;
 
 	virtual std::pair<double, std::vector<double>> get_result() = 0;
 
