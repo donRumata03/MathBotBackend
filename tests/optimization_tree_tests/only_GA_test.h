@@ -4,12 +4,11 @@
 
 #pragma once
 
-#include <optimizing/OptimizationTreeWrapper.h>
 #include "optimizing/optimize_combiner.h"
 
 #include <tests/test_functions.h>
 
-inline void test_raw_tree_with_GA () {
+inline void test_raw_optimization_tree () {
 	json tree_description = json::parse(*read_file/*<given_filename_encoding::utf8>*/(math_bot_base_dir / "data" / "only_implemented_tree.json"));
 
 	OptimizationTree tree(tree_description);
@@ -19,9 +18,9 @@ inline void test_raw_tree_with_GA () {
 				schaffer_function,
 				shaffer_fit,
 				[] (auto a) { return std::vector<double> {}; },
-				[] (auto a) { return std::vector<double> {}; }, {},
-				{{ -100, 100 },
-				 { -100, 100 }});
+				[] (auto a) { return std::vector<double> {}; },
+				{ 20, 80, 200 },
+				{ { -100, 100 }, { -100, 100 } });
 	} catch (std::exception& e) {
 		std::cout << e.what() << std::endl;
 	}

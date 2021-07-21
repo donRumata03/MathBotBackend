@@ -110,7 +110,7 @@ public:
 	}
 
 	void collect_universal_hyperparameters(const json& params_json) {
-		if (params_json.contains("time_weight")) this->time_weight = params_json["time_weight"].get<li>();
+		if (params_json.contains("time_weight")) this->time_weight = params_json["time_weight"].get<double>();
 		if (params_json.contains("min_it")) this->min_it = params_json["min_it"].get<li>();
 	}
 };

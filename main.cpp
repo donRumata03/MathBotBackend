@@ -83,7 +83,7 @@ int main (int argc, const char **argv)
 		/// Testing:
 
 		// plot_expression_derivative_length_graph();
-		test_raw_tree_with_GA();
+		test_raw_optimization_tree();
 
 		// test_process_optimizing();
 		// test_process_plotting();
