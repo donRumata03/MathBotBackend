@@ -131,7 +131,11 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 			auto current_optimal_result = parent_result;
 
 			for (auto& child : children) {
-				child.run(fitness_function, first_gradient);
+				child.run(error_function, fitness_function, first_gradient, second_gradient,
+			              search_domain,
+			              current_optimal_result,
+			              new_blocks_with_connections
+			              );
 				auto child_result = child.get_result();
 
 				bool opt_updated_now = false;
@@ -149,9 +153,11 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 		else{
 			/// Run children in parallel
 			for (auto& child : children) {
-				child.run(fitness_function, first_gradient);
-				// children_results.push_back(child.get_result());
-
+				child.run(error_function, fitness_function, first_gradient, second_gradient,
+				          search_domain,
+				          std::pair{ best_error, best_sequence },
+				          new_blocks_with_connections
+				);
 				auto c_res = child.get_result();
 				bool renewed_now = false;
 				if (best_error > c_res.first) {

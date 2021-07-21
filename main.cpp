@@ -1,4 +1,5 @@
 #include <pythonic.h>
+#include <tests/optimization_tree_tests/only_GA_test.h>
 
 #include "query_processor.h"
 
@@ -82,8 +83,9 @@ int main (int argc, const char **argv)
 		/// Testing:
 
 		// plot_expression_derivative_length_graph();
+		test_raw_tree_with_GA();
 
-		test_process_optimizing();
+		// test_process_optimizing();
 		// test_process_plotting();
 		// test_process_solving();
 	}

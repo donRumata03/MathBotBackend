@@ -92,7 +92,7 @@ public:
 		return t != type::GA;
 	}
 	bool initial_position_recommended() {
-		return is_in(std::initializer_list<type>{ type::GD, type::Newton }, get_type());
+		return is_in(get_type(), std::initializer_list<type>{ type::GD, type::Newton });
 	}
 
 	std::string get_type_name() {
