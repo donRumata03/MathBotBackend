@@ -5,7 +5,7 @@
 #include "optimize_combiner.h"
 
 
-OptimizationTree::OptimizationTree (const json& source, type _parent_container_type)
+OptimizationTree::OptimizationTree (const json& source, type parent_container_type)
 {
 	if (source.is_object()) {
 		m_type = type::opt_block;
@@ -42,7 +42,6 @@ OptimizationTree::OptimizationTree (const json& source, type _parent_container_t
 	}
 	assert(source.is_array());
 
-	parent_container_type = _parent_container_type;
 	if (parent_container_type == type::seq_container) {
 		// This one is parallel:
 		m_type = type::par_container;
@@ -67,9 +66,9 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 	auto new_blocks_with_connections = blocks_with_connections;
 
 	switch (m_type) {
-		case type::opt_block: new_blocks_with_connections.emplace_back(m_block->get_type_name());
-		case type::seq_container: new_blocks_with_connections.emplace_back(BlockLinker::seq);
-		case type::par_container: new_blocks_with_connections.emplace_back(BlockLinker::par);
+		case type::opt_block: new_blocks_with_connections.emplace_back(m_block->get_type_name()); break;
+		case type::seq_container: new_blocks_with_connections.emplace_back(BlockLinker::seq); break;
+		case type::par_container: new_blocks_with_connections.emplace_back(BlockLinker::par); break;
 	}
 	std::cout << (m_type == type::opt_block ? console_colors::yellow : console_colors::blue)
 		<< format_opt_block_sequence(new_blocks_with_connections) << "………"

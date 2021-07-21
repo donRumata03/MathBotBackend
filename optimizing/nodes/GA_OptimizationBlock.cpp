@@ -32,8 +32,8 @@ void GA_OptimizationBlock::run (const std::vector<double>& parent_genome,
 	/// Callback (counts error by genome; prints genome if its length <= 5):
 	auto callback = [&](const size_t iterations_performed, const double best_fitness, const std::vector<double>& best_genome)
 	{
-		std::cout << "GA: " << percent_plotter(iterations_performed, computation_distribution.epoch_number, 2)
-		<< " iterations performed; best error now: " << error_function(best_genome);
+		std::cout << "GA: " << percent_plotter(iterations_performed, computation_distribution.epoch_number, 2);
+		std::cout << " iterations performed; best error now: " << error_function(best_genome);
 
 		if (best_genome.size() <= 5) std::cout << "; best genome: " << best_genome;
 
@@ -70,6 +70,7 @@ void GA_OptimizationBlock::update_optimization_objective (
 		const std::function<std::vector<double> (const std::vector<double>&)>& _second_gradient)
 {
 	fitness_function = _fitness_function;
+	error_function = _error_function;
 
 
 	// Reset results:

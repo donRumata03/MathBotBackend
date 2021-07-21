@@ -14,13 +14,18 @@ inline void test_raw_tree_with_GA () {
 
 	OptimizationTree tree(tree_description);
 	tree.push_iteration_plan(100'000.);
-	tree.run(
-			schaffer_function,
-			shaffer_fit,
-			[](auto a){ return std::vector<double>{}; },
-			[](auto a){ return std::vector<double>{}; },
-			{ { -100, 100 } , { -100, 100 } }
-			);
+	try {
+		tree.run(
+				schaffer_function,
+				shaffer_fit,
+				[] (auto a) { return std::vector<double> {}; },
+				[] (auto a) { return std::vector<double> {}; },
+				{{ -100, 100 },
+				 { -100, 100 }}
+		);
+	} catch (std::exception& e) {
+		std::cout << e.what() << std::endl;
+	}
 
 	auto [best_error, best_genome] = tree.get_result();
 	//	std::cout << "Best error: " << best_error <<  << std::endl;
