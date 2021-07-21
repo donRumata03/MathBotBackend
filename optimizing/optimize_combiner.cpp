@@ -117,6 +117,7 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 
 		m_block->run(starting_point_for_algorithm, search_domain);
 
+		std::tie(best_error, best_sequence) = m_block->get_result();
 		// ______________________________________________________________________
 
 		display_delimiter();
