@@ -148,6 +148,8 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 				}
 				std::cout << "[SeqContainer]: best_error after block „" << child.m_block->get_type_name() << "”: " << current_optimal_result->first
 				          << "(" << (opt_updated_now ? "updated" : "not updated") << ")" << std::endl;
+
+				new_blocks_with_connections.emplace_back(child.m_block->get_type_name());
 			}
 
 			best_error = current_optimal_result->first;

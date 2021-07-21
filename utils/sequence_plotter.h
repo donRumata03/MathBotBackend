@@ -30,10 +30,6 @@ inline std::string format_opt_block_sequence (const std::vector<std::variant<Blo
 	for (size_t i = 0; i < blocks_and_connections.size(); ++i) {
 		auto block_or_connection = blocks_and_connections[i];
 
-		if (i != blocks_and_connections.size() - 1
-			and std::holds_alternative<std::string>(blocks_and_connections[i])
-			and std::holds_alternative<std::string>(blocks_and_connections[i + 1]))
-				res += ";";
 		if (i != 0) res += " ";
 
 
@@ -43,6 +39,10 @@ inline std::string format_opt_block_sequence (const std::vector<std::variant<Blo
 		else {
 			res += std::get<std::string>(block_or_connection);
 		}
+		if (i != blocks_and_connections.size() - 1
+		    and std::holds_alternative<std::string>(blocks_and_connections[i])
+		    and std::holds_alternative<std::string>(blocks_and_connections[i + 1]))
+			res += ";";
 	}
 
 	return res;
