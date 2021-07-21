@@ -7,7 +7,7 @@
 
 OptimizationTree::OptimizationTree (const json& source, type _parent_container_type)
 {
-	if (source.type() == json::value_t::object) {
+	if (source.is_object()) {
 		m_type = type::opt_block;
 
 		// Initialize this block:
@@ -204,6 +204,8 @@ void OptimizationTree::set_all_blocks_resource (double target_iterations, double
 		m_block->computations_resource_in_units = target_iterations * (m_block->time_weight / total_weight);
 	}
 	else {
-		set_all_blocks_resource(target_iterations, total_weight);
+		for (auto& child : children) {
+			child.set_all_blocks_resource(target_iterations, total_weight);
+		}
 	}
 }

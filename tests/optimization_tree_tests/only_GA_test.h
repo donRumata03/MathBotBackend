@@ -10,7 +10,7 @@
 #include <tests/test_functions.h>
 
 inline void test_raw_tree_with_GA () {
-	json tree_description(*read_file/*<given_filename_encoding::utf8>*/(math_bot_base_dir / "data" / "only_GA_tree.json"));
+	json tree_description = json::parse(*read_file/*<given_filename_encoding::utf8>*/(math_bot_base_dir / "data" / "only_GA_tree.json"));
 
 	OptimizationTree tree(tree_description);
 	tree.push_iteration_plan(100'000.);
