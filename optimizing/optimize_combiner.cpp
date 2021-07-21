@@ -59,6 +59,7 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
                             const std::function<double (const std::vector<double>&)>& fitness_function,
                             const std::function<std::vector<double> (const std::vector<double>&)>& first_gradient,
                             const std::function<std::vector<double> (const std::vector<double>&)>& second_gradient,
+                            const std::vector<std::pair<double, double>>& search_domain,
                             const std::optional<std::pair<double, std::vector<double>>>& parent_result,
                             const std::vector<std::variant<BlockLinker, std::string>>& blocks_with_connections)
 {
@@ -101,7 +102,7 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 				<< console_colors::remove_all_colors << std::endl;
 			}
 			/// Generate:
-
+			starting_point_for_algorithm = GA::generate_population(search_domain, 1)[0];
 		}
 		else{
 			if (not m_block->can_use_initial_position()) {
@@ -131,7 +132,8 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 			auto current_optimal_result = parent_result;
 
 			for (auto& child : children) {
-				child.run(error_function, fitness_function, first_gradient, second_gradient, current_optimal_result);
+				child.run(error_function, fitness_function, first_gradient, second_gradient, <#initializer#>,
+				          current_optimal_result, <#initializer#>);
 				auto child_result = child.get_result();
 
 				bool opt_updated_now = false;
@@ -149,7 +151,8 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 		else{
 			/// Run children in parallel
 			for (auto& child : children) {
-				child.run(error_function, fitness_function, first_gradient, second_gradient, parent_result);
+				child.run(error_function, fitness_function, first_gradient, second_gradient, <#initializer#>,
+				          parent_result, <#initializer#>);
 				// children_results.push_back(child.get_result());
 
 				auto c_res = child.get_result();

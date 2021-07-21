@@ -38,6 +38,7 @@ public:
 	          const std::function<double (const std::vector<double>&)>& fitness_function,
 	          const std::function<std::vector<double> (const std::vector<double>&)>& first_gradient,
 	          const std::function<std::vector<double> (const std::vector<double>&)>& second_gradient,
+	          const std::vector<std::pair<double, double>>& search_domain,
 	          const std::optional<std::pair<double, std::vector<double>>>& parent_result = std::nullopt,
 	          const std::vector<std::variant<BlockLinker, std::string>>& blocks_with_connections = {});
 
