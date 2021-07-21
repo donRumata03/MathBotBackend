@@ -13,7 +13,8 @@ void Newton_OptimizationBlock::update_optimization_objective (
 		const std::function<double (const std::vector<double>&)>& _error_function,
 		const std::function<double (const std::vector<double>&)>& _fitness_function,
 		const std::function<std::vector<double> (const std::vector<double>&)>& _first_gradient,
-		const std::function<std::vector<double> (const std::vector<double>&)>& _second_gradient)
+		const std::function<std::vector<double> (const std::vector<double>&)>& _second_gradient,
+		const std::vector<double>& gradient_tree_sizes)
 {
 	error_function = _error_function;
 	fitness_function = _fitness_function;
@@ -36,12 +37,11 @@ std::pair<double, std::vector<double>> Newton_OptimizationBlock::get_result ()
 	};
 }
 
-double Newton_OptimizationBlock::iteration_cost_units ()
+double Newton_OptimizationBlock::iteration_cost_units (const std::vector<double>& gradient_tree_sizes)
 {
 	if (not error_function or not first_gradient or not second_gradient) {
 		throw std::logic_error("Can't count iteration_cost_units without knowing function, gradient and 2nd gradient!");
 	}
 
-	// TODO
-	return ?;
+	return (gradient_tree_sizes[0] + gradient_tree_sizes[1] + gradient_tree_sizes[2]) / gradient_tree_sizes[0];
 }

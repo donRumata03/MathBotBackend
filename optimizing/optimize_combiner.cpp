@@ -57,6 +57,7 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
                             const std::function<double (const std::vector<double>&)>& fitness_function,
                             const std::function<std::vector<double> (const std::vector<double>&)>& first_gradient,
                             const std::function<std::vector<double> (const std::vector<double>&)>& second_gradient,
+                            const std::vector<double>& gradient_tree_sizes,
                             const std::vector<std::pair<double, double>>& search_domain,
                             const std::optional<std::pair<double, std::vector<double>>>& parent_result,
                             const std::vector<std::variant<BlockLinker, std::string>>& blocks_with_connections)
@@ -87,7 +88,8 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 				error_function,
 				fitness_function,
 				first_gradient,
-				second_gradient
+				second_gradient,
+				gradient_tree_sizes
 				);
 
 		/// Optionally, generate initial point, if recommended
@@ -131,11 +133,11 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 			auto current_optimal_result = parent_result;
 
 			for (auto& child : children) {
-				child.run(error_function, fitness_function, first_gradient, second_gradient,
-			              search_domain,
-			              current_optimal_result,
-			              new_blocks_with_connections
-			              );
+				child.run(error_function, fitness_function, first_gradient, second_gradient, <#initializer#>,
+				          search_domain,
+				          current_optimal_result,
+				          new_blocks_with_connections
+				);
 				auto child_result = child.get_result();
 
 				bool opt_updated_now = false;
@@ -153,9 +155,9 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 		else{
 			/// Run children in parallel
 			for (auto& child : children) {
-				child.run(error_function, fitness_function, first_gradient, second_gradient,
+				child.run(error_function, fitness_function, first_gradient, second_gradient, <#initializer#>,
 				          search_domain,
-				          std::pair{ best_error, best_sequence },
+				          std::pair { best_error, best_sequence },
 				          new_blocks_with_connections
 				);
 				auto c_res = child.get_result();

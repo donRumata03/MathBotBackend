@@ -68,12 +68,12 @@ public:
 
 	virtual double iteration_cost_units() { return 1; }
 
-	virtual void update_optimization_objective(
+	virtual void update_optimization_objective (
 			const std::function<double (const std::vector<double>&)>& _error_function,
 			const std::function<double (const std::vector<double>&)>& _fitness_function,
 			const std::function<std::vector<double> (const std::vector<double>&)>& _first_gradient,
-			const std::function<std::vector<double> (const std::vector<double>&)>& _second_gradient
-			) = 0;
+			const std::function<std::vector<double> (const std::vector<double>&)>& _second_gradient,
+			const std::vector<double>& gradient_tree_sizes) = 0;
 
 	virtual void run (const std::vector<double>& parent_genome, const std::vector<std::pair<double, double>>& point_ranges) = 0;
 

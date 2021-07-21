@@ -19,10 +19,9 @@ inline void test_raw_tree_with_GA () {
 				schaffer_function,
 				shaffer_fit,
 				[] (auto a) { return std::vector<double> {}; },
-				[] (auto a) { return std::vector<double> {}; },
+				[] (auto a) { return std::vector<double> {}; }, {},
 				{{ -100, 100 },
-				 { -100, 100 }}
-		);
+				 { -100, 100 }});
 	} catch (std::exception& e) {
 		std::cout << e.what() << std::endl;
 	}

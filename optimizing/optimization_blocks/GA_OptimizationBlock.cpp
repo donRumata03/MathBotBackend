@@ -67,7 +67,8 @@ void GA_OptimizationBlock::update_optimization_objective (
 		const std::function<double (const std::vector<double>&)>& _error_function,
 		const std::function<double (const std::vector<double>&)>& _fitness_function,
 		const std::function<std::vector<double> (const std::vector<double>&)>& _first_gradient,
-		const std::function<std::vector<double> (const std::vector<double>&)>& _second_gradient)
+		const std::function<std::vector<double> (const std::vector<double>&)>& _second_gradient,
+		const std::vector<double>& gradient_tree_sizes)
 {
 	fitness_function = _fitness_function;
 	error_function = _error_function;

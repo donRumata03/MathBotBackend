@@ -25,10 +25,12 @@ private:
 public:
 	explicit GA_OptimizationBlock(GA::continuous_GA_params _params);
 
-	void update_optimization_objective (const std::function<double (const std::vector<double>&)>& _error_function,
-	                                    const std::function<double (const std::vector<double>&)>& _fitness_function,
-	                                    const std::function<std::vector<double> (const std::vector<double>&)>& _first_gradient,
-	                                    const std::function<std::vector<double> (const std::vector<double>&)>& _second_gradient) override;
+	void update_optimization_objective (
+			const std::function<double (const std::vector<double>&)>& _error_function,
+			const std::function<double (const std::vector<double>&)>& _fitness_function,
+			const std::function<std::vector<double> (const std::vector<double>&)>& _first_gradient,
+			const std::function<std::vector<double> (const std::vector<double>&)>& _second_gradient,
+			const std::vector<double>& gradient_tree_sizes) override;
 
 
 	void run (const std::vector<double>& parent_genome, const std::vector<std::pair<double, double>>& point_ranges) override;
