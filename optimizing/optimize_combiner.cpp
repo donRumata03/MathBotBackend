@@ -92,16 +92,27 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 				);
 
 		/// Optionally, generate initial point, if recommended
+		std::vector<double> starting_point_for_algorithm;
 		if (not parent_result) {
 			if (m_block->initial_position_recommended()) {
-				// TODO: Warn and generate
+				std::cout << "[OptimizationTree::run] " << console_colors::yellow
+					<< "WARNING: There's no parent result at the moment of running algorithm «" + m_block->get_type_name() + "», which needs it. "
+					<< "The initial point will be generated, but it would impact the quality."
+				<< console_colors::remove_all_colors << std::endl;
 			}
-			else {
-				// TODO: run without generating
-			}
+			/// Generate:
+
 		}
 		else{
-			// TODO: If can use parent result: run; else — warn!
+			if (not m_block->can_use_initial_position()) {
+				std::cout << "[OptimizationTree::run] " << console_colors::yellow
+				          << "WARNING: Algorithm «" + m_block->get_type_name() + "», can't use initial position, but it had been pre-counted"
+				          << "Parent's result will be discarded!"
+				<< console_colors::remove_all_colors << std::endl;
+			}
+			else {
+				starting_point_for_algorithm = parent_result->second;
+			}
 		}
 		// m_block->can_use_initial_position()
 
