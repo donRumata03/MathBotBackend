@@ -170,7 +170,10 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 			}
 		}
 
-		std::cout << "} (end " << (m_type == type::seq_container ? "sequence" : "parallel") << " container; best_error: " << best_error << ")" << std::endl;
+		std::cout << "} " << console_colors::underlined
+			<< "(end " << (m_type == type::seq_container ? "sequence" : "parallel") << " container; best_error: " << best_error << ")"
+		<< console_colors::remove_all_colors << std::endl;
+
 	}
 }
 
