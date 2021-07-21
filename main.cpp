@@ -79,6 +79,8 @@ int main (int argc, const char **argv)
 
 
 	if (argc == 1) {
+		/// Testing:
+
 		// plot_expression_derivative_length_graph();
 
 		test_process_optimizing();
@@ -86,6 +88,7 @@ int main (int argc, const char **argv)
 		// test_process_solving();
 	}
 	else {
+		/// Actual work:
 		process_user_input(argc, reinterpret_cast<const char **>(argv));
 	}
 

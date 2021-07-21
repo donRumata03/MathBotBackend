@@ -1,0 +1,9 @@
+[
+	{
+		"type": "GA",
+		"parameters": {
+			"min_it": 2000,
+			"time_weight": 1
+		}
+	}
+]

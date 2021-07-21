@@ -33,7 +33,7 @@ private:
 	bool has_set_iterations = false;
 
 public:
-	explicit OptimizationTree(const json& source, type _parent_container_type);
+	explicit OptimizationTree(const json& source, type _parent_container_type = type::par_container);
 	void run (const std::function<double (const std::vector<double>&)>& error_function,
 	          const std::function<double (const std::vector<double>&)>& fitness_function,
 	          const std::function<std::vector<double> (const std::vector<double>&)>& first_gradient,
