@@ -17,7 +17,7 @@ void GA_OptimizationBlock::run (const std::vector<double>& parent_genome,
 	if (computations_resource_in_units <= 0) throw std::logic_error("Can't run without computational resource");
 
 	// Distribute computations:
-	double fitness_function_computations = std::min(double(min_it), computations_resource_in_units);
+	double fitness_function_computations = std::max(double(min_it), computations_resource_in_units);
 	computation_distribution = GA::distribute_computations_defaultly(fitness_function_computations);
 	params.population_size = computation_distribution.population_size;
 	std::cout << "[GA_OptimizationBlock]: " << computation_distribution << std::endl;
