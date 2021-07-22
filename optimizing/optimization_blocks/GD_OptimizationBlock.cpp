@@ -34,10 +34,11 @@ void GD_OptimizationBlock::run (const std::vector<double>& parent_genome,
                                 const std::vector<std::pair<double, double>>& point_ranges)
 {
 	double it_cost = iteration_cost_units();
-	auto resultant_iterations = size_t(std::round(computations_resource_in_units / it_cost));
+	auto resultant_iterations = std::min(min_it, size_t(std::round(computations_resource_in_units / it_cost)));
 	std::cout << "[GD]: iteration cost: " << it_cost << "; computations_resource_in_units: " << computations_resource_in_units
-	          << " ==> iterations: " << resultant_iterations << std::endl;
-
+			<< " ==> iterations: " << resultant_iterations;
+	if (resultant_iterations == min_it) std::cout << " (minimal allowed)" << std::endl;
+	std::cout << std::endl;
 
 	gradient_optimize(error_function, first_gradient, parent_genome, learning_rate, resultant_iterations); // TODO: add some logging
 }

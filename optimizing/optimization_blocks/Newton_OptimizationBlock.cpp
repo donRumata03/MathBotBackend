@@ -32,9 +32,11 @@ void Newton_OptimizationBlock::run (const std::vector<double>& parent_genome,
                                     const std::vector<std::pair<double, double>>& point_ranges)
 {
 	double it_cost = iteration_cost_units();
-	auto resultant_iterations = size_t(std::round(computations_resource_in_units / it_cost));
+	auto resultant_iterations = std::min(min_it, size_t(std::round(computations_resource_in_units / it_cost)));
 	std::cout << "[Newton]: iteration cost: " << it_cost << "; computations_resource_in_units: " << computations_resource_in_units
-	<< " ==> iterations: " << resultant_iterations << std::endl;
+	<< " ==> iterations: " << resultant_iterations;
+	if (resultant_iterations == min_it) std::cout << " (minimal allowed)" << std::endl;
+	std::cout << std::endl;
 
 	newton_optimize(error_function, first_gradient, second_gradient,
 	                parent_genome, 0.99,
