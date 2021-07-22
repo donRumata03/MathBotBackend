@@ -9,6 +9,18 @@
 
 class GD_OptimizationBlock : OptimizationBlock
 {
+private:
+	/// Input:
+	std::function<double (const std::vector<double>&)> error_function;
+	std::function<std::vector<double> (const std::vector<double>&)> first_gradient;
+
+	std::vector<double> grad_tree_sizes;
+
+	/// Output:
+	double best_error = std::numeric_limits<double>::infinity();
+	std::vector<double> best_sequence;
+
+
 	type get_type () override;
 
 	void update_optimization_objective (const std::function<double (const std::vector<double>&)>& _error_function,
