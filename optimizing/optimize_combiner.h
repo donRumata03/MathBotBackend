@@ -7,7 +7,10 @@
 
 
 #include <optimizing/OptimizationBlock.h>
+
 #include <optimizing/optimization_blocks/GA_OptimizationBlock.h>
+#include <optimizing/optimization_blocks/Newton_OptimizationBlock.h>
+#include <optimizing/optimization_blocks/GD_OptimizationBlock.h>
 
 
 class OptimizationTree

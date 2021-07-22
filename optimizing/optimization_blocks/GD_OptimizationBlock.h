@@ -8,7 +8,7 @@
 #include <other_optimization/local_optimization.h>
 
 
-class GD_OptimizationBlock : OptimizationBlock
+class GD_OptimizationBlock : public OptimizationBlock
 {
 private:
 	/// Hyperparameters:

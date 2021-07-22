@@ -2,8 +2,6 @@
 // Created by Vova on 01.11.2020.
 //
 
-#include <optimizing/optimization_blocks/Newton_OptimizationBlock.h>
-#include <optimizing/optimization_blocks/GD_OptimizationBlock.h>
 #include "optimize_combiner.h"
 
 
