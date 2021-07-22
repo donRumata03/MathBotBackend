@@ -183,20 +183,26 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 				best_sequence = current_optimal_result->second;
 			}
 		}
+
 		else{
 			/// Run children in parallel
+			/// can always leave empty result; leaves this result even if parent result is better: anyway, Parent will cope with it
 			for (auto& child : children) {
 				child.run(error_function, fitness_function, first_gradient, second_gradient, gradient_tree_sizes,
 				          search_domain,
-				          std::pair { best_error, best_sequence },
+				          get_result(),
 				          new_blocks_with_connections
 				);
-				auto c_res = child.get_result();
+				auto child_result = child.get_result();
 
 				bool renewed_now = false;
-				if (best_error > c_res.first) {
-					best_error = c_res.first;
-					best_sequence = c_res.second;
+				if (
+						child_result
+						and not std::isnan(child_result->first) and check_genome_non_nan(child_result->second)
+						and (not get_result() or best_error >= child_result->first)
+				) {
+					best_error = child_result->first;
+					best_sequence = child_result->second;
 					renewed_now = true;
 				}
 				std::cout << "[ParContainer]: next block processed (" << child.m_block->get_type_name() << "): best_error is "
