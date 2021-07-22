@@ -23,6 +23,9 @@ void Newton_OptimizationBlock::update_optimization_objective (
 	second_gradient = _second_gradient;
 
 	grad_tree_sizes = gradient_tree_sizes;
+
+	best_sequence.clear();
+	best_error = std::numeric_limits<double>::infinity();
 }
 
 void Newton_OptimizationBlock::run (const std::vector<double>& parent_genome,
