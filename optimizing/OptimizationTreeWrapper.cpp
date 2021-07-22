@@ -128,6 +128,8 @@ std::pair<std::unordered_map<std::string, double>, double> OptimizationTreeWrapp
 			);
 
 	auto sequence_result = optimization_tree.get_result();
+	if (not sequence_result) throw std::runtime_error("Optimization Algorithm Tree returned nothing! You function is probably incorrect…");
+
 	auto best_variables = convert_variable_sequence(sequence_result->second);
 
 	assert(almost_equal(sequence_result->first, tree->compute(best_variables)));
