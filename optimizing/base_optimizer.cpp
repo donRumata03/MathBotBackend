@@ -34,6 +34,12 @@ optimizer_return_struct process_optimization_query(optimization_query& q)
 	return res;
 }
 
+
+/**
+ * 																Deprecated!
+ * 																Deprecated!
+ * 																Deprecated!
+ */
 std::pair<std::unordered_map<std::string, double>, double> combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std::pair<double, double>> &variable_ranges,
                 const std::unordered_set<std::string> &variables, double target_minimum, size_t iterations)
 {
