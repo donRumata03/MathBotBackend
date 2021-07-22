@@ -6,6 +6,53 @@
 			"time_weight": 1
 		}
 	},
+	[
+		{
+			"type": "GD",
+			"parameters": {
+				"min_it": 50,
+				"time_weight": 0.05,
+
+				"learning_rate": 1
+			}
+		},
+		{
+			"type": "GD",
+			"parameters": {
+				"min_it": 50,
+				"time_weight": 0.05,
+
+				"learning_rate": 0.1
+			}
+		},
+		{
+			"type": "GD",
+			"parameters": {
+				"min_it": 50,
+				"time_weight": 0.05,
+
+				"learning_rate": 0.05
+			}
+		},
+		{
+			"type": "GD",
+			"parameters": {
+				"min_it": 50,
+				"time_weight": 0.05,
+
+				"learning_rate": 0.01
+			}
+		},
+		{
+			"type": "GD",
+			"parameters": {
+				"min_it": 50,
+				"time_weight": 0.05,
+
+				"learning_rate": 0.005
+			}
+		}
+	],
 	{
 		"type": "Newton",
 		"parameters": {
