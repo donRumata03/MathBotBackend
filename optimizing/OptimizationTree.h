@@ -51,10 +51,17 @@ public:
 		return { { best_error, best_sequence } };
 	}
 
+	std::string get_name() {
+		if (m_type == type::opt_block) return m_block->get_type_name();
+
+		if (m_type == type::par_container) return "Parallel container";
+		if (m_type == type::seq_container) return "Sequence container";
+	}
+
 	void push_iteration_plan(double target_iterations);
-	void set_all_blocks_resource(double target_iterations, double total_weight);
 
 private:
+	void set_all_blocks_resource(double target_iterations, double total_weight);
 	[[nodiscard]] double count_total_time_weight() const;
 };
 
