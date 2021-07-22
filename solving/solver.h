@@ -55,7 +55,7 @@ inline std::variant<std::string, std::unordered_map<std::string, double>> proces
 		return { std::string(exception.what()) };
 	}
 
-	// TODO: use Newton method for finding solution of an equation which requires only the first derivative!
+	// TODO: use Newton method for finding solution of an equation which requires only the first derivative (apply little-step technique?)
 
 	double edge = 1e-5;
 	if (std::abs(function_value) < edge) {
