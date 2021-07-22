@@ -9,7 +9,7 @@
 #include <tests/test_functions.h>
 
 inline void test_raw_optimization_tree () {
-	json tree_description = json::parse(*read_file/*<given_filename_encoding::utf8>*/(math_bot_base_dir / "data" / "only_implemented_tree.json"));
+	json tree_description = json::parse(*read_file/*<given_filename_encoding::utf8>*/(math_bot_base_dir / "tree_schemas" / "GDs_with_learning_rates.json"));
 
 	OptimizationTree tree(tree_description);
 	tree.push_iteration_plan(100'000.);

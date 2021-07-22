@@ -9,7 +9,7 @@
 class OptimizationTreeWrapper
 {
 private:
-	OptimizationTree optimization_tree;
+	std::optional<OptimizationTree> optimization_tree;
 
 public:
 	explicit OptimizationTreeWrapper(const fs::path& tree_descriptor_path);

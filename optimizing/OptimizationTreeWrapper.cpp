@@ -5,11 +5,13 @@
 #include "OptimizationTreeWrapper.h"
 
 OptimizationTreeWrapper::OptimizationTreeWrapper (const fs::path& tree_descriptor_path)
-	: optimization_tree(
-			json::parse(*read_file(tree_descriptor_path))
-			)
-{
 
+{
+	if (not fs::exists(tree_descriptor_path)) throw std::runtime_error("File with tree doesn't exist!");
+
+	optimization_tree.emplace(
+			json::parse(*read_file(tree_descriptor_path))
+	);
 }
 
 std::pair<std::unordered_map<std::string, double>, double> OptimizationTreeWrapper::optimize (expression_tree *tree,
@@ -115,10 +117,10 @@ std::pair<std::unordered_map<std::string, double>, double> OptimizationTreeWrapp
 	};
 
 	/// Push iterations:
-	optimization_tree.push_iteration_plan(iterations);
+	optimization_tree->push_iteration_plan(iterations);
 
 	/// Finally, RUN:
-	optimization_tree.run(
+	optimization_tree->run(
 			generated_error_function,
 			generated_fitness_function,
 			generated_first_gradient,
@@ -127,7 +129,7 @@ std::pair<std::unordered_map<std::string, double>, double> OptimizationTreeWrapp
 			search_domain
 			);
 
-	auto sequence_result = optimization_tree.get_result();
+	auto sequence_result = optimization_tree->get_result();
 	if (not sequence_result) throw std::runtime_error("Optimization Algorithm Tree returned nothing! You function is probably incorrect…");
 
 	auto best_variables = convert_variable_sequence(sequence_result->second);

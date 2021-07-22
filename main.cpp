@@ -1,5 +1,5 @@
 #include <pythonic.h>
-#include <tests/optimization_tree_tests/only_GA_test.h>
+#include <tests/optimization_tree_tests/raw_optimization_tree_test.h>
 
 #include "query_processor.h"
 

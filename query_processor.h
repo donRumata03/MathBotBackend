@@ -9,6 +9,8 @@ struct base_query
 	std::string user_name = "Not Vova";
 	std::string target_path;
 	std::string identifier = "None";
+
+	std::string tree_name = "GDs_with_learning_rates"; // TODO: add ability to change this from UI!
 };
 
 void to_json(json& j, const base_query& query);
