@@ -63,6 +63,7 @@ public:
 	};
 
 	/// Functions to be implemented in derived class:
+	virtual void collect_specific_hyperparameters(const json& params_json) {};
 
 	virtual type get_type() = 0;
 

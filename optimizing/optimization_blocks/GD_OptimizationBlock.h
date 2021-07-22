@@ -5,12 +5,16 @@
 #pragma once
 
 #include <optimizing/OptimizationBlock.h>
+#include <other_optimization/local_optimization.h>
 
 
 class GD_OptimizationBlock : OptimizationBlock
 {
 private:
-	/// Input:
+	/// Hyperparameters:
+	double learning_rate = -1;
+
+	/// Input data:
 	std::function<double (const std::vector<double>&)> error_function;
 	std::function<std::vector<double> (const std::vector<double>&)> first_gradient;
 
@@ -20,6 +24,11 @@ private:
 	double best_error = std::numeric_limits<double>::infinity();
 	std::vector<double> best_sequence;
 
+public:
+
+	GD_OptimizationBlock() = default;
+
+	void collect_specific_hyperparameters (const json& params_json) override;
 
 	type get_type () override;
 

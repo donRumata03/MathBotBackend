@@ -9,6 +9,11 @@ OptimizationBlock::type GD_OptimizationBlock::get_type ()
 	return type::GD;
 }
 
+void GD_OptimizationBlock::collect_specific_hyperparameters (const json& params_json)
+{
+	if (params_json.contains("learning_rate")) this->learning_rate = params_json["learning_rate"].get<double>();
+}
+
 void GD_OptimizationBlock::update_optimization_objective (
 		const std::function<double (const std::vector<double>&)>& _error_function,
 		const std::function<double (const std::vector<double>&)>& _fitness_function,

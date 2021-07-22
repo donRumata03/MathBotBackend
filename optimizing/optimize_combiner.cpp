@@ -3,6 +3,7 @@
 //
 
 #include <optimizing/optimization_blocks/Newton_OptimizationBlock.h>
+#include <optimizing/optimization_blocks/GD_OptimizationBlock.h>
 #include "optimize_combiner.h"
 
 
@@ -27,7 +28,7 @@ OptimizationTree::OptimizationTree (const json& source, type parent_container_ty
 			);
 		}
 		else if (block_type == "GD") {
-			// TODO
+			m_block = std::make_unique<GD_OptimizationBlock>();
 		}
 		else if (block_type == "Newton") {
 			m_block = std::make_unique<Newton_OptimizationBlock>();
@@ -38,6 +39,7 @@ OptimizationTree::OptimizationTree (const json& source, type parent_container_ty
 
 		// Universal parameters for blocks:
 		m_block->collect_universal_hyperparameters(params_json);
+		m_block->collect_specific_hyperparameters(params_json);
 
 		return;
 	}
