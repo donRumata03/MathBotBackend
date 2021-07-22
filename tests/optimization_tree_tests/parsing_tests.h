@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "optimizing/optimize_combiner.h"
+#include "optimizing/OptimizationTree.h"
 
 inline void test_parsing_optimization_tree() {
 	std::string filename = "basic_tree.json";

@@ -1,38 +1,8 @@
-#include <pythonic.h>
-#include "base_optimizer.h"
-#include "GA/GA_optimizer.h"
+//
+// Created by Vova on 22.07.2021.
+//
 
-#include "other_optimization/local_optimization.h"
-#include "../query_processor.h"
-#include "utils/rounding.h"
-
-
-
-optimizer_return_struct process_optimization_query(optimization_query& q)
-{
-	// Firstly compile the expression:
-	std::unique_ptr<expression_tree> tree = nullptr;
-
-	try {
-		tree = make_expression_tree(q.expression);
-	} catch (std::exception& e){
-		return std::string(e.what());
-	}
-
-
-	// After that order the variables the way GA needs them
-	std::pair<std::unordered_map<std::string, double>, double> res;
-	try {
-		res = combi_optimize(tree.get(), q.variable_ranges, q.variables, q.target_minimum, q.iterations);
-	} catch(std::exception& e) {
-		return std::string(e.what());
-	}
-
-	res.first = pretty_a_variable_pack(res.first);
-	res.second = pretty_a_number(res.second);
-
-	return res;
-}
+#include "combi_optimizer.h"
 
 
 /**
@@ -41,7 +11,7 @@ optimizer_return_struct process_optimization_query(optimization_query& q)
  * 																Deprecated!
  */
 std::pair<std::unordered_map<std::string, double>, double> combi_optimize (expression_tree *tree, const std::unordered_map<std::string, std::pair<double, double>> &variable_ranges,
-                const std::unordered_set<std::string> &variables, double target_minimum, size_t iterations)
+                                                                           const std::unordered_set<std::string> &variables, double target_minimum, size_t iterations)
 {
 	size_t number_of_variables = variables.size();
 
@@ -153,36 +123,36 @@ std::pair<std::unordered_map<std::string, double>, double> combi_optimize (expre
 	auto generated_informer = [&](size_t iteration, double current_fitness, const GA::Genome& best_genome){
 		double error_function = target_minimum + 1 / current_fitness;
 		std::cout
-			<< "ᎶᎯ percent: " << percent_plotter(iteration, epoch_num, 1)
-			<< " | Current error: " << error_function
-			<< " | Best genome: " << best_genome
-		<< std::endl;
+				<< "ᎶᎯ percent: " << percent_plotter(iteration, epoch_num, 1)
+				<< " | Current error: " << error_function
+				<< " | Best genome: " << best_genome
+				<< std::endl;
 	};
 
 
 	/// Construct GA_params:
 	GA::continuous_GA_params params {
-					population_size,
+			population_size,
 
-					GA::hazing_GA_params {
-							.hazing_percent = 0.5,
+			GA::hazing_GA_params {
+					.hazing_percent = 0.5,
 
-					},
-					GA::mutation_GA_params {
-							.mutation_percent_sigma = 0.05,
-							.target_gene_mutation_number = 0.3 * number_of_variables,
-							.cut_mutations = true
-					},
-					GA::crossover_mode::low_variance_genetic,
-					1e+15,                                                  // <- exiting_fitness_value
+			},
+			GA::mutation_GA_params {
+					.mutation_percent_sigma = 0.05,
+					.target_gene_mutation_number = 0.3 * number_of_variables,
+					.cut_mutations = true
+			},
+			GA::crossover_mode::low_variance_genetic,
+			1e+15,                                                  // <- exiting_fitness_value
 
-					GA::threading_GA_params {
-							.allow_multithreading = false
-					},
+			GA::threading_GA_params {
+					.allow_multithreading = false
+			},
 
-					{},                                                     // <- Custom operations
-					GA::exception_policy::catch_and_log_fact,
-			};
+			{},                                                     // <- Custom operations
+			GA::exception_policy::catch_and_log_fact,
+	};
 
 	std::cout << "[math bot combi-optimize]: Initializing GA..." << std::endl;
 	GA::GA_optimizer optimizer(generated_fitness_function, ranges, params);
@@ -207,7 +177,7 @@ std::pair<std::unordered_map<std::string, double>, double> combi_optimize (expre
 
 			if (is_ready) {
 				std::cout << "[math bot combi-optimize]: Finished GA in "
-					<< (epoch_index + 1) << " iterations instead of " << epoch_num << " ones! Good news :)" << std::endl;
+				          << (epoch_index + 1) << " iterations instead of " << epoch_num << " ones! Good news :)" << std::endl;
 				break;
 			}
 
@@ -238,7 +208,7 @@ std::pair<std::unordered_map<std::string, double>, double> combi_optimize (expre
 	// size_t GD_iterations = iterations / (6.25 + 1);
 	double GD_coolness_coefficient = 0.5;
 	size_t GD_iterations = std::round(GD_coolness_coefficient * iterations
-			* function_tree_nodes / (function_tree_nodes + first_derivative_tree_nodes));
+	                                  * function_tree_nodes / (function_tree_nodes + first_derivative_tree_nodes));
 
 	try {
 		{
@@ -291,7 +261,7 @@ std::pair<std::unordered_map<std::string, double>, double> combi_optimize (expre
 	// size_t newton_iterations = iterations / (40 + 6.25 + 1);
 	double Newton_coolness_coefficient = 1.5;
 	size_t newton_iterations = std::round(Newton_coolness_coefficient * iterations
-			* function_tree_nodes / (function_tree_nodes + first_derivative_tree_nodes + second_derivative_tree_nodes));
+	                                      * function_tree_nodes / (function_tree_nodes + first_derivative_tree_nodes + second_derivative_tree_nodes));
 	// Not "/ number_of_variables" yet (it would be Hessian).
 
 	try {
@@ -338,3 +308,5 @@ std::pair<std::unordered_map<std::string, double>, double> combi_optimize (expre
 	return { best_resultive_variable_values, best_resultive_error };
 	// return { newton_best_variable_values, newton_best_error };
 }
+
+

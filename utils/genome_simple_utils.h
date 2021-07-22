@@ -8,6 +8,6 @@
 
 
 inline bool check_genome_non_nan(const std::vector<double>& genome) {
-	return std::all_of(genome.begin(), genome.end(), std::not_fn(std::isnan));
+	return std::none_of(genome.begin(), genome.end(), std::isnan);
 }
 

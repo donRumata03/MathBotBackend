@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "optimizing/optimize_combiner.h"
+#include "optimizing/OptimizationTree.h"
 
 #include <tests/test_functions.h>
 
@@ -25,7 +25,7 @@ inline void test_raw_optimization_tree () {
 		std::cout << e.what() << std::endl;
 	}
 
-	auto [best_error, best_genome] = tree.get_result();
+	auto [best_error, best_genome] = *tree.get_result();
 	//	std::cout << "Best error: " << best_error <<  << std::endl;
 
 	printvar(best_error);

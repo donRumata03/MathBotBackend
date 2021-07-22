@@ -1,5 +1,6 @@
 #pragma once
-#include <pythonic.h>
+#include <math_bot_config.h>
+#include "combi_optimizer.h"
 
 #include "query_processor.h"
 
@@ -19,6 +20,3 @@ struct optimizer_return_struct
 
 optimizer_return_struct process_optimization_query(optimization_query& q);
 
-std::pair<std::unordered_map<std::string, double>, double> combi_optimize(expression_tree* tree,
-	const std::unordered_map<std::string, std::pair<double, double>> &variable_ranges, const std::unordered_set<std::string> &variables,
-	double target_minimum, size_t iterations);

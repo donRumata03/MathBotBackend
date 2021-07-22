@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <optimizing/optimize_combiner.h>
+#include <optimizing/OptimizationTree.h>
 
 class OptimizationTreeWrapper
 {

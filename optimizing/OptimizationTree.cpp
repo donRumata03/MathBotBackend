@@ -3,7 +3,7 @@
 //
 
 #include <utils/genome_simple_utils.h>
-#include "optimize_combiner.h"
+#include "OptimizationTree.h"
 
 
 OptimizationTree::OptimizationTree (const json& source, type parent_container_type)
