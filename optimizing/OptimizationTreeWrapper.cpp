@@ -104,7 +104,7 @@ std::pair<std::unordered_map<std::string, double>, double> OptimizationTreeWrapp
 	auto generated_second_gradient = generate_some_gradient_counter(second_derivative_trees);
 
 	/// 								Sequence ->> Fitness (ℝ^n → ℝ)
-	auto generated_fitness_function = [&](const std::vector<double>& variable_values)
+	auto generated_fitness_function = [&](const std::vector<double>& variable_values) -> double
 	{
 		double function_result = generated_error_function(variable_values);
 
@@ -114,7 +114,26 @@ std::pair<std::unordered_map<std::string, double>, double> OptimizationTreeWrapp
 		return fitness;
 	};
 
+	/// Push iterations:
+	optimization_tree.push_iteration_plan(iterations);
 
+	/// Finally, RUN:
+	optimization_tree.run(
+			generated_error_function,
+			generated_fitness_function,
+			generated_first_gradient,
+			generated_second_gradient,
+			{ function_tree_nodes, first_derivative_tree_nodes, second_derivative_tree_nodes },
+			search_domain
+			);
 
-	return std::pair<std::unordered_map<std::string, double>, double>();
+	auto sequence_result = optimization_tree.get_result();
+	auto best_variables = convert_variable_sequence(sequence_result->second);
+
+	assert(almost_equal(sequence_result->first, tree->compute(best_variables)));
+
+	return {
+		best_variables,
+		sequence_result->first
+	};
 }
