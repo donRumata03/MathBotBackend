@@ -56,6 +56,8 @@ public:
 
 		if (m_type == type::par_container) return "Parallel container";
 		if (m_type == type::seq_container) return "Sequence container";
+
+		return "Unknown!";
 	}
 
 	void push_iteration_plan(double target_iterations);

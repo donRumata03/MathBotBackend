@@ -147,6 +147,7 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 		if (m_type == type::seq_container) {
 			/// Run children in sequence, choose best of children results
 			auto current_optimal_result = parent_result;
+			auto prev_optimal_result = current_optimal_result;
 
 			for (auto& child : children) {
 				child.run(error_function, fitness_function, first_gradient, second_gradient, gradient_tree_sizes,
@@ -165,12 +166,21 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 					current_optimal_result = child_result;
 					opt_updated_now = true;
 				}
-				std::cout << "[SeqContainer]: best_error after block „" << child.get_name() << "”: " << current_optimal_result->first
-				          << "(" << (opt_updated_now ? "updated" : "not updated") << ")" << std::endl;
+				std::vector<std::string> viewing_values;
+				if (child_result) viewing_values.emplace_back(std::to_string(child_result->first) + "(new result)");
+				if (prev_optimal_result) viewing_values.emplace_back(std::to_string(prev_optimal_result->first) + "(old result)");
 
-				inform_about_best_genome("SeqContainer", current_optimal_result->second);
+				std::cout << "[SeqContainer]: best_error after block „" << child.get_name() << "”: "
+					<< "min(" << viewing_values << ") = " << current_optimal_result->first
+					<< " ==> " << (opt_updated_now ? "updated" : "not updated")
+				<< std::endl;
 
+				if (current_optimal_result) {
+					inform_about_best_genome("SeqContainer", current_optimal_result->second);
+				}
 				new_blocks_with_connections.emplace_back(child.get_name());
+
+				prev_optimal_result = current_optimal_result;
 			}
 
 			if (not current_optimal_result) {
@@ -193,7 +203,7 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 			for (auto& child : children) {
 				child.run(error_function, fitness_function, first_gradient, second_gradient, gradient_tree_sizes,
 				          search_domain,
-				          get_result(),
+				          parent_result,
 				          new_blocks_with_connections
 				);
 				auto child_result = child.get_result();
@@ -208,7 +218,10 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 					best_sequence = child_result->second;
 					renewed_now = true;
 				}
-				std::cout << "[ParContainer]: next block processed (" << child.get_name() << "): best_error is "
+				std::cout << "[ParContainer]: next block processed (" << child.get_name() << "): candidate_error: ";
+				if (child_result) std::cout << child_result->first;
+				else std::cout << "NOT_DEFINED";
+				std:: cout << "; best_error is "
 				<< best_error << "(" << (renewed_now ? "updated" : "not updated") << ")" << std::endl;
 
 				inform_about_best_genome("ParContainer");
