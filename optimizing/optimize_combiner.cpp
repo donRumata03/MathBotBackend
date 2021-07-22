@@ -2,6 +2,7 @@
 // Created by Vova on 01.11.2020.
 //
 
+#include <utils/genome_simple_utils.h>
 #include "optimize_combiner.h"
 
 
@@ -153,7 +154,11 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 				auto child_result = child.get_result();
 
 				bool opt_updated_now = false;
-				if (not current_optimal_result or child_result.first < current_optimal_result->first) {
+				if (
+						child_result
+						and not std::isnan(child_result->first) and check_genome_non_nan(child_result->second)
+						and (not current_optimal_result or child_result->first < current_optimal_result->first)
+				) {
 					current_optimal_result = child_result;
 					opt_updated_now = true;
 				}
@@ -165,8 +170,18 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 				new_blocks_with_connections.emplace_back(child.m_block->get_type_name());
 			}
 
-			best_error = current_optimal_result->first;
-			best_sequence = current_optimal_result->second;
+			if (not current_optimal_result) {
+				std::cout << console_colors::yellow << "[SeqContainer] WARNING: "
+					<< "container finished but there's still no result… Returning nothing"
+				<< console_colors::remove_all_colors << std::endl;
+
+				best_error = std::numeric_limits<double>::infinity();
+				best_sequence.clear();
+			}
+			else{
+				best_error = current_optimal_result->first;
+				best_sequence = current_optimal_result->second;
+			}
 		}
 		else{
 			/// Run children in parallel
@@ -177,6 +192,7 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 				          new_blocks_with_connections
 				);
 				auto c_res = child.get_result();
+
 				bool renewed_now = false;
 				if (best_error > c_res.first) {
 					best_error = c_res.first;

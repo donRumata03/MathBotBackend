@@ -45,8 +45,10 @@ public:
 	          const std::optional<std::pair<double, std::vector<double>>>& parent_result = {},
 	          const std::vector<std::variant<BlockLinker, std::string>>& blocks_with_connections = {});
 
-	std::pair<double, std::vector<double>> get_result() {
-		return { best_error, best_sequence };
+	std::optional<std::pair<double, std::vector<double>>> get_result() {
+		if (best_sequence.empty()) return std::nullopt;
+
+		return { { best_error, best_sequence } };
 	}
 
 	void push_iteration_plan(double target_iterations);
