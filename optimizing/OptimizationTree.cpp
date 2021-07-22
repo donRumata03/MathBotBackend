@@ -130,10 +130,13 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 		std::cout << console_colors::underlined << "Start " << (m_type == type::seq_container ? "sequence" : "parallel")
 		<< " container" << console_colors::remove_all_colors << " {" << std::endl;
 
-		auto inform_about_best_genome = [&] (const std::string& container_name) {
+		auto inform_about_best_genome = [&, this] (const std::string& container_name, const std::vector<double>& bgm = {}) {
+			auto actual_bgm = bgm;
+			if (actual_bgm.empty()) actual_bgm = best_sequence;
+
 			std::cout << "[" + container_name + "]: best genome is";
-			if (best_sequence.size() <= 7) {
-				std::cout << ": " << best_sequence;
+			if (actual_bgm.size() <= 7) {
+				std::cout << ": " << actual_bgm;
 			}
 			else {
 				std::cout << " too long to print";
@@ -165,7 +168,7 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 				std::cout << "[SeqContainer]: best_error after block „" << child.m_block->get_type_name() << "”: " << current_optimal_result->first
 				          << "(" << (opt_updated_now ? "updated" : "not updated") << ")" << std::endl;
 
-				inform_about_best_genome("SeqContainer");
+				inform_about_best_genome("SeqContainer", current_optimal_result->second);
 
 				new_blocks_with_connections.emplace_back(child.m_block->get_type_name());
 			}
@@ -208,7 +211,7 @@ void OptimizationTree::run (const std::function<double (const std::vector<double
 				std::cout << "[ParContainer]: next block processed (" << child.m_block->get_type_name() << "): best_error is "
 				<< best_error << "(" << (renewed_now ? "updated" : "not updated") << ")" << std::endl;
 
-				inform_about_best_genome("SeqContainer");
+				inform_about_best_genome("ParContainer");
 			}
 		}
 

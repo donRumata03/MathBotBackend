@@ -18,7 +18,9 @@ optimizer_return_struct process_optimization_query(optimization_query& q)
 
 	std::optional<OptimizationTreeWrapper> tree_wrapper;
 	try {
-		 tree_wrapper.emplace(math_bot_base_dir / "tree_schemas" / q.tree_name);
+		auto tree_structure_path = math_bot_base_dir / "tree_schemas" / (q.tree_name + ".json");
+		std::cout << "Loading structure tree from: " << tree_structure_path.string() << std::endl;
+		 tree_wrapper.emplace(tree_structure_path);
 	} catch(std::exception& e) {
 		return "Error while building tree (its structure might be incorrect): "s + e.what();
 	}
@@ -26,7 +28,7 @@ optimizer_return_struct process_optimization_query(optimization_query& q)
 	std::pair<std::unordered_map<std::string, double>, double> res;
 	try {
 //		res = combi_optimize(tree.get(), q.variable_ranges, q.variables, q.target_minimum, q.iterations); /// <<-- It's outdated!
-		res =
+		res = tree_wrapper->optimize(tree.get(), q.variable_ranges, q.variables, q.target_minimum, q.iterations);
 	} catch(std::exception& e) {
 		return "Error while optimizing: " + std::string(e.what());
 	}
