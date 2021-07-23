@@ -67,7 +67,8 @@ public:
 
 	virtual type get_type() = 0;
 
-	virtual double iteration_cost_units() { return 1; }
+	virtual double iteration_cost_units (size_t parameter_number)
+	{ return 1; }
 
 	virtual void update_optimization_objective (
 			const std::function<double (const std::vector<double>&)>& _error_function,

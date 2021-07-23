@@ -28,7 +28,7 @@ public:
 
 	type get_type () override;
 
-	double iteration_cost_units () override;
+	double iteration_cost_units (size_t parameter_number) override;
 
 	void update_optimization_objective (
 			const std::function<double (const std::vector<double>&)>& _error_function,

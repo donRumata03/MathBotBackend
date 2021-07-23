@@ -42,7 +42,7 @@ public:
 
 	void run (const std::vector<double>& parent_genome, const std::vector<std::pair<double, double>>& point_ranges) override;
 
-	double iteration_cost_units () override;
+	double iteration_cost_units (size_t parameter_number) override;
 
 	std::pair<double, std::vector<double>> get_result () override;
 };

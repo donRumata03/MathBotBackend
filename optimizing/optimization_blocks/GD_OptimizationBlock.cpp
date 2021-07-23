@@ -33,7 +33,7 @@ void GD_OptimizationBlock::update_optimization_objective (
 void GD_OptimizationBlock::run (const std::vector<double>& parent_genome,
                                 const std::vector<std::pair<double, double>>& point_ranges)
 {
-	double it_cost = iteration_cost_units();
+	double it_cost = iteration_cost_units(point_ranges.size());
 	auto resultant_iterations = std::max(min_it, size_t(std::round(computations_resource_in_units / it_cost)));
 	std::cout << "[GD]: iteration cost: " << it_cost << "; computations_resource_in_units: " << computations_resource_in_units
 			<< " ==> iterations: " << resultant_iterations;
@@ -51,11 +51,14 @@ std::pair<double, std::vector<double>> GD_OptimizationBlock::get_result ()
 	};
 }
 
-double GD_OptimizationBlock::iteration_cost_units ()
+double GD_OptimizationBlock::iteration_cost_units (size_t parameter_number)
 {
 	if (not error_function or not first_gradient) {
 		throw std::logic_error("Can't count iteration_cost_units without knowing function and its gradient!");
 	}
 
-	return (grad_tree_sizes[0] + grad_tree_sizes[1]) / grad_tree_sizes[0];
+	return
+			parameter_number
+			*
+			(grad_tree_sizes[0] + grad_tree_sizes[1]) / grad_tree_sizes[0];
 }

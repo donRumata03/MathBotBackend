@@ -51,6 +51,42 @@
 
 				"learning_rate": 0.005
 			}
+		},
+		{
+			"type": "GD",
+			"parameters": {
+				"min_it": 50,
+				"time_weight": 0.05,
+
+				"learning_rate": 0.001
+			}
+		},
+		{
+			"type": "GD",
+			"parameters": {
+				"min_it": 50,
+				"time_weight": 0.05,
+
+				"learning_rate": 0.0005
+			}
+		},
+		{
+			"type": "GD",
+			"parameters": {
+				"min_it": 50,
+				"time_weight": 0.05,
+
+				"learning_rate": 0.0001
+			}
+		},
+		{
+			"type": "GD",
+			"parameters": {
+				"min_it": 50,
+				"time_weight": 0.05,
+
+				"learning_rate": 0.00005
+			}
 		}
 	],
 	{
