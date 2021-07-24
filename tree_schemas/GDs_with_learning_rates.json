@@ -4,15 +4,6 @@
 			"type": "GA",
 			"parameters": {
 				"min_it": 2000,
-				"time_weight": 1.6,
-
-				"hazing_percent": 0.3
-			}
-		},
-		{
-			"type": "GA",
-			"parameters": {
-				"min_it": 2000,
 				"time_weight": 2,
 
 				"hazing_percent": 0.35
@@ -31,25 +22,7 @@
 			"type": "GA",
 			"parameters": {
 				"min_it": 2000,
-				"time_weight": 0.7,
-
-				"hazing_percent": 0.5
-			}
-		},
-		{
-			"type": "GA",
-			"parameters": {
-				"min_it": 2000,
-				"time_weight": 0.6,
-
-				"hazing_percent": 0.6
-			}
-		},
-		{
-			"type": "GA",
-			"parameters": {
-				"min_it": 2000,
-				"time_weight": 0.5,
+				"time_weight": 1,
 
 				"hazing_percent": 0.7
 			}
