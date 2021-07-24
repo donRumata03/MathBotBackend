@@ -1,5 +1,6 @@
 #include <pythonic.h>
 #include <tests/optimization_tree_tests/raw_optimization_tree_test.h>
+#include <tests/other_tests.h>
 
 #include "query_processor.h"
 
@@ -84,8 +85,9 @@ int main (int argc, const char **argv)
 
 		// plot_expression_derivative_length_graph();
 		// test_raw_optimization_tree();
+		rubbish_tests();
 
-		test_process_optimizing();
+		// test_process_optimizing();
 		// test_process_plotting();
 		// test_process_solving();
 	}

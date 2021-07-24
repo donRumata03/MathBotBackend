@@ -18,5 +18,8 @@ std::unordered_map<std::string, double> pretty_a_variable_pack (const std::unord
 double pretty_a_number (double number)
 {
 	double exp = 1e+5;
-	return std::round(number * exp) / exp;
+	auto answer = std::round(number * exp) / exp;
+	if (answer == 0) answer = 0;
+
+	return answer;
 }
