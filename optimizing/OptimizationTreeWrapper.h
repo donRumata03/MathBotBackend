@@ -16,7 +16,7 @@ public:
 
 	std::pair<std::unordered_map<std::string, double>, double> optimize (
 			expression_tree *tree,
-			const std::unordered_map<std::string, std::pair<double, double>> &variable_ranges, std::unordered_set<std::string> &variables,
+			const std::unordered_map<std::string, std::pair<double, double>> &variable_ranges, const std::unordered_set<std::string>& variables,
 			double target_minimum, size_t iterations
 	);
 };

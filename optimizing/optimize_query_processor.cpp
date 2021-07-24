@@ -22,7 +22,7 @@ optimizer_return_struct process_optimization_query(optimization_query& q)
 		std::cout << "Loading structure tree from: " << tree_structure_path.string() << std::endl;
 		 tree_wrapper.emplace(tree_structure_path);
 	} catch(std::exception& e) {
-		return "Error while building tree (its structure might be incorrect): "s + e.what();
+		return "Error while building optimization tree (its structure might be incorrect): "s + e.what();
 	}
 
 	std::pair<std::unordered_map<std::string, double>, double> res;

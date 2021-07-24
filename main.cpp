@@ -65,8 +65,8 @@ void test_process_solving(){
 	// const std::string& this_filename = "1311.json";
 
 	const std::string& this_dir = dir_with_examples;
-	// const std::string& this_filename = example_filename;
-	const std::string& this_filename = non_solvable_filename;
+	const std::string& this_filename = example_filename;
+//	const std::string& this_filename = non_solvable_filename;
 
 	test_query_processing(
 			"solve",
@@ -85,11 +85,11 @@ int main (int argc, const char **argv)
 
 		// plot_expression_derivative_length_graph();
 		// test_raw_optimization_tree();
-		rubbish_tests();
+		// rubbish_tests();
 
 		// test_process_optimizing();
 		// test_process_plotting();
-		// test_process_solving();
+		test_process_solving();
 	}
 	else {
 		/// Actual work:

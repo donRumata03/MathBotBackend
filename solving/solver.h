@@ -10,6 +10,7 @@
 #include "optimizing/optimize_query_processor.h"
 #include <algorithm>
 #include <utils/rounding.h>
+#include <optimizing/OptimizationTreeWrapper.h>
 
 inline std::variant<std::string, std::unordered_map<std::string, double>> process_solving_query(const equation_solving_query& query)
 {
@@ -42,11 +43,23 @@ inline std::variant<std::string, std::unordered_map<std::string, double>> proces
 	auto res_tree = std::make_unique<expression_tree>(operation_char::absation,
 			new expression_tree(operation_char::substraction, left_ptr, right_ptr), nullptr);
 
+
+	std::optional<OptimizationTreeWrapper> tree_wrapper;
+	try {
+		auto tree_structure_path = math_bot_base_dir / "tree_schemas" / (query.tree_name + ".json");
+		std::cout << "Loading structure tree from: " << tree_structure_path.string() << std::endl;
+		tree_wrapper.emplace(tree_structure_path);
+	} catch(std::exception& e) {
+		return "Error while building optimization tree (its structure might be incorrect): "s + e.what();
+	}
+
+
+
 	std::unordered_map<std::string, double> for_res;
 	double function_value;
 
 	try {
-		auto temp_optimizing_res = combi_optimize(res_tree.get(), query.variable_ranges, query.variables, 0., query.iterations);
+		auto temp_optimizing_res = tree_wrapper->optimize(res_tree.get(), query.variable_ranges, query.variables, 0., query.iterations);
 		for_res = temp_optimizing_res.first;
 		function_value = temp_optimizing_res.second;
 	} catch (std::exception& exception) {
@@ -55,6 +68,7 @@ inline std::variant<std::string, std::unordered_map<std::string, double>> proces
 		return { std::string(exception.what()) };
 	}
 
+	// TODO: there was a fast opt method working only for equations (when opt_value == 0)
 	// TODO: use Newton method for finding solution of an equation which requires only the first derivative (apply little-step technique?)
 
 	double edge = 1e-5;
