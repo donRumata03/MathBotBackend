@@ -44,6 +44,24 @@
 				"min_it": 50,
 				"time_weight": 0.05,
 
+				"learning_rate": 0.5
+			}
+		},
+		{
+			"type": "GD",
+			"parameters": {
+				"min_it": 50,
+				"time_weight": 0.05,
+
+				"learning_rate": 0.25
+			}
+		},
+		{
+			"type": "GD",
+			"parameters": {
+				"min_it": 50,
+				"time_weight": 0.05,
+
 				"learning_rate": 0.1
 			}
 		},
