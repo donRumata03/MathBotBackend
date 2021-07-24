@@ -6,7 +6,88 @@
 				"min_it": 2000,
 				"time_weight": 2,
 
-				"hazing_percent": 0.35
+				"hazing_percent": 0.05
+			}
+		},
+		{
+			"type": "GA",
+			"parameters": {
+				"min_it": 2000,
+				"time_weight": 2,
+
+				"hazing_percent": 0.1
+			}
+		},
+		{
+			"type": "GA",
+			"parameters": {
+				"min_it": 2000,
+				"time_weight": 2,
+
+				"hazing_percent": 0.2
+			}
+		},
+		{
+			"type": "GA",
+			"parameters": {
+				"min_it": 2000,
+				"time_weight": 2,
+
+				"hazing_percent": 0.3
+			}
+		},
+		{
+			"type": "GA",
+			"parameters": {
+				"min_it": 2000,
+				"time_weight": 2,
+
+				"hazing_percent": 0.4
+			}
+		},
+		{
+			"type": "GA",
+			"parameters": {
+				"min_it": 2000,
+				"time_weight": 2,
+
+				"hazing_percent": 0.5
+			}
+		},
+		{
+			"type": "GA",
+			"parameters": {
+				"min_it": 2000,
+				"time_weight": 2,
+
+				"hazing_percent": 0.6
+			}
+		},
+		{
+			"type": "GA",
+			"parameters": {
+				"min_it": 2000,
+				"time_weight": 2,
+
+				"hazing_percent": 0.7
+			}
+		},
+		{
+			"type": "GA",
+			"parameters": {
+				"min_it": 2000,
+				"time_weight": 2,
+
+				"hazing_percent": 0.8
+			}
+		},
+		{
+			"type": "GA",
+			"parameters": {
+				"min_it": 2000,
+				"time_weight": 2,
+
+				"hazing_percent": 0.8
 			}
 		}
 	],

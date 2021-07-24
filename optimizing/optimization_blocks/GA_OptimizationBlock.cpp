@@ -28,6 +28,8 @@ void GA_OptimizationBlock::run (const std::vector<double>& parent_genome,
 	size_t variable_number = point_ranges.size();
 	params.mutation_params.target_gene_mutation_number = 0.3 * double(variable_number);
 
+	params.hazing_params.hazing_percent = this->hazing_percent;
+
 	/// Initialize GA optimizer (ignore parent error):
 	GA::GA_optimizer optimizer(fitness_function, point_ranges, params);
 
