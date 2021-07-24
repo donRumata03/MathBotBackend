@@ -87,9 +87,9 @@ int main (int argc, const char **argv)
 		// test_raw_optimization_tree();
 		// rubbish_tests();
 
-		// test_process_optimizing();
+		test_process_optimizing();
 		// test_process_plotting();
-		test_process_solving();
+		// test_process_solving();
 	}
 	else {
 		/// Actual work:
