@@ -2,7 +2,7 @@
 // Created by Vova on 06.07.2021.
 //
 
-#include "math_bot_config.h."
+#include "math_bot_config.h"
 
 /**
  	Use this code to compare old and new results:
