@@ -32,6 +32,10 @@ void GA_OptimizationBlock::run (const std::vector<double>& parent_genome,
 	/// Callback (counts error by genome; prints genome if its length <= 5):
 	auto callback = [&](const size_t iterations_performed, const double best_fitness, const std::vector<double>& best_genome)
 	{
+		if (pythonic_random() > 15. / computation_distribution.epoch_number) { // ≈15 outputs / algo
+			return;
+		}
+
 		std::cout << "GA: " << percent_plotter(iterations_performed, computation_distribution.epoch_number, 2);
 		std::cout << " iterations performed; best error now: " << error_function(best_genome);
 
