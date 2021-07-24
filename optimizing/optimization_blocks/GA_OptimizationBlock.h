@@ -15,6 +15,9 @@ private:
 
 	std::function<double (const GA::Genome&)> error_function; // To get error by genome in callbacks and in the end
 
+	/// GA-Specific Parameters
+	double hazing_percent = 0.4;
+
 	/// Temp:
 	GA::ComputationDistribution computation_distribution;
 
@@ -24,6 +27,8 @@ private:
 
 public:
 	explicit GA_OptimizationBlock(GA::continuous_GA_params _params);
+
+	void collect_specific_hyperparameters (const json& params_json) override;
 
 	void update_optimization_objective (
 			const std::function<double (const std::vector<double>&)>& _error_function,

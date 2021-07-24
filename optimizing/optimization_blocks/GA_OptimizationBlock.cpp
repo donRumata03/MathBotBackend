@@ -80,3 +80,8 @@ void GA_OptimizationBlock::update_optimization_objective (
 	computation_distribution = GA::ComputationDistribution{};
 }
 
+void GA_OptimizationBlock::collect_specific_hyperparameters (const json& params_json)
+{
+	if (params_json.contains("hazing_percent")) this->hazing_percent = params_json["hazing_percent"].get<double>();
+}
+
