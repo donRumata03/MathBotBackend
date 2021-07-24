@@ -38,9 +38,12 @@ void Newton_OptimizationBlock::run (const std::vector<double>& parent_genome,
 	if (resultant_iterations == min_it) std::cout << " (minimal allowed)" << std::endl;
 	std::cout << std::endl;
 
-	newton_optimize(error_function, first_gradient, second_gradient,
-	                parent_genome, 0.99,
+	auto[be, bs] = newton_optimize(error_function, first_gradient, second_gradient,
+	                parent_genome, 1,
 	                resultant_iterations); // TODO: add some logging
+
+	best_error = be;
+	best_sequence = bs;
 }
 
 std::pair<double, std::vector<double>> Newton_OptimizationBlock::get_result ()
