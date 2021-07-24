@@ -21,6 +21,8 @@ void GA_OptimizationBlock::run (const std::vector<double>& parent_genome,
 	computation_distribution = GA::distribute_computations_defaultly(fitness_function_computations);
 	params.population_size = computation_distribution.population_size;
 	std::cout << "[GA_OptimizationBlock]: " << computation_distribution << std::endl;
+	std::cout << "[GA]: my hazing percent is: " << hazing_percent << std::endl;
+
 
 	// Parameters:
 	size_t variable_number = point_ranges.size();

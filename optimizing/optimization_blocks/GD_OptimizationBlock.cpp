@@ -40,6 +40,8 @@ void GD_OptimizationBlock::run (const std::vector<double>& parent_genome,
 	if (resultant_iterations == min_it) std::cout << " (minimal allowed)" << std::endl;
 	std::cout << std::endl;
 
+	std::cout << "[GD]: my learning rate is: " << learning_rate << std::endl;
+
 	auto[be, bs] = gradient_optimize(error_function, first_gradient, parent_genome, learning_rate, resultant_iterations); // TODO: add some logging
 
 	best_error = be;
