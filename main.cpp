@@ -87,6 +87,9 @@ int main (int argc, const char **argv)
 		// test_raw_optimization_tree();
 		// rubbish_tests();
 
+		std::cout << math_bot_pch_file_path << std::endl;
+		std::cout << math_bot_base_dir << std::endl;
+
 		test_process_optimizing();
 		// test_process_plotting();
 		// test_process_solving();
