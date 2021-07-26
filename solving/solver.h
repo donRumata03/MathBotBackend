@@ -80,5 +80,7 @@ inline std::variant<std::string, std::unordered_map<std::string, double>> proces
 	}
 
 	// Can`t find the solution!
-	return "Unfortunately, I couldn`t find the solution for the equation!";
+	return "Your equation seems to have no solutions!";
+
+		// "Unfortunately, I couldn`t find the solution for the equation!";
 }
