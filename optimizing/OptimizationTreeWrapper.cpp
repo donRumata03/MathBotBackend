@@ -67,6 +67,7 @@ std::pair<std::unordered_map<std::string, double>, double> OptimizationTreeWrapp
 
 
 	/// 								Sequence ->> Error (ℝ^n → ℝ)
+	size_t computing_error_messages = 0;
 	auto generated_error_function = [&](const std::vector<double>& variable_values) -> double
 	{
 		std::unordered_map < std::string, double > vars = convert_variable_sequence(variable_values);
@@ -76,7 +77,13 @@ std::pair<std::unordered_map<std::string, double>, double> OptimizationTreeWrapp
 		}
 		catch (std::exception& e)
 		{
-			std::cout << console_colors::red << "[OptimizationTreeWrapper ->> GeneratedErrorFunction] Error caught: " << e.what() << std::endl;
+			if (computing_error_messages < 20) {
+				std::cout << console_colors::red
+				          << "[OptimizationTreeWrapper ->> GeneratedErrorFunction] Error caught: " << e.what()
+				<< std::endl;
+			}
+			computing_error_messages += 1;
+
 			throw;
 		}
 	};

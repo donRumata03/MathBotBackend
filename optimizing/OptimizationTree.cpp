@@ -21,11 +21,14 @@ OptimizationTree::OptimizationTree (const json& source, type parent_container_ty
 		else if (block_type == "GA") {
 			auto params = GA::continuous_GA_params{};
 			params.mutation_params.mutation_percent_sigma = 0.075;
+
 			params.threading_params.allow_multithreading = true;
 			if (params.threading_params.allow_multithreading) {
 				std::cout << "[OptimizationTree][GA initializing]: GA will use " <<
 				params.threading_params.threads << " threads of " << std::thread::hardware_concurrency() << std::endl;
 			}
+
+			params.ex_policy = GA::exception_policy::catch_and_ignore;
 
 			m_block = std::make_unique<GA_OptimizationBlock>(
 				params
