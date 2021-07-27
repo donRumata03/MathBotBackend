@@ -91,7 +91,7 @@ void process_user_input(const int argc, const char* argv[])
 				/// Everything goes as expected:
 
 				std::stringstream ss;
-				ss << "Уравнение решено. Вот его корень: " << std::get<std::unordered_map<std::string, double>>(response);
+				ss << "Уравнение решено. Вот один из его корней: " << std::get<std::unordered_map<std::string, double>>(response);
 				write_file<given_filename_encoding::utf8>(ss.str(), query.target_path);
 			}
 

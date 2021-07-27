@@ -57,15 +57,15 @@ void test_process_optimizing(){
 }
 
 void test_process_solving(){
-	std::string dir_with_examples = "_examples";
-	std::string example_filename = "solving_example.json";
-	std::string non_solvable_filename = "non_solvable_example.json";
+//	std::string dir_with_examples = "_examples";
+//	std::string example_filename = "solving_example.json";
+//	std::string non_solvable_filename = "non_solvable_example.json";
 
-	// const std::string& this_dir = "447186473";
-	// const std::string& this_filename = "1311.json";
+	 const std::string& this_dir = "215659697";
+	 const std::string& this_filename = "627.json";
 
-	const std::string& this_dir = dir_with_examples;
-	const std::string& this_filename = example_filename;
+//	const std::string& this_dir = dir_with_examples;
+//	const std::string& this_filename = example_filename;
 //	const std::string& this_filename = non_solvable_filename;
 
 	test_query_processing(
@@ -90,9 +90,9 @@ int main (int argc, const char **argv)
 		std::cout << math_bot_pch_file_path << std::endl;
 		std::cout << math_bot_base_dir << std::endl;
 
-		test_process_optimizing();
+//		test_process_optimizing();
 		// test_process_plotting();
-		// test_process_solving();
+		 test_process_solving();
 	}
 	else {
 		/// Actual work:
