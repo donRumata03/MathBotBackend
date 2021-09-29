@@ -22,7 +22,7 @@ OptimizationTree::OptimizationTree (const json& source, type parent_container_ty
 			auto params = GA::continuous_GA_params{};
 			params.mutation_params.mutation_percent_sigma = 0.075;
 
-			params.threading_params.allow_multithreading = true;
+			params.threading_params.allow_multithreading = false;
 			if (params.threading_params.allow_multithreading) {
 				std::cout << "[OptimizationTree][GA initializing]: GA will use " <<
 				params.threading_params.threads << " threads of " << std::thread::hardware_concurrency() << std::endl;
